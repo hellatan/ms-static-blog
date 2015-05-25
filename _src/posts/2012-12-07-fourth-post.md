@@ -5,3 +5,10 @@ template: post.html
 ---
 
 A really short, rushed-feeling string of words.
+
+```javascript
+function test() {
+    var a = 1;
+    return a;
+}
+```
