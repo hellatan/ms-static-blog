@@ -7,6 +7,7 @@
 
 'use strict';
 
+var PORT = process.env.PORT || 9999;
 var IS_PROD = process.env.NODE_ENV === 'prod';
 var gulp = require('gulp');
 var Metalsmith = require('metalsmith');
@@ -17,7 +18,7 @@ var scss = require('metalsmith-sass');
 
 var pageTitles = require('./_lib/metalsmith-page-titles');
 
-//var server = require('metalsmith-serve');
+var serve = require('metalsmith-serve');
 //var collections = require('metalsmith-collections');
 
 Metalsmith(__dirname)
@@ -37,6 +38,7 @@ Metalsmith(__dirname)
     .destination('.')
     .use(markdown({
         smartypants: true,
+        // github flavored markdown
         gfm: true,
         tables: true
     }))
@@ -54,6 +56,10 @@ Metalsmith(__dirname)
         outputDir: './css',
         sourceMap: true,
         sourceMapContents: true
+    }))
+    .use(serve({
+        port: PORT,
+        verbose: true
     }))
     .build(function(err) {
         if (err) {
