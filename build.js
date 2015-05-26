@@ -13,13 +13,17 @@ var markdown = require('metalsmith-markdown');
 var templates = require('metalsmith-templates');
 var permalinks = require('metalsmith-permalinks');
 var scss = require('metalsmith-sass');
+var pageTitles = require('./_lib/metalsmith-page-titles');
+
 //var server = require('metalsmith-serve');
 //var collections = require('metalsmith-collections');
 
 Metalsmith(__dirname)
     .metadata({
-        title: '1stdibs Engineering',
-        url: 'http://codeat1stdibs.com'
+        site: {
+            title: '1stdibs Engineering - The most beautiful code on earth',
+            url: 'http://codeat1stdibs.com'
+        }
     })
     .source('./_src')
     .use(scss({
@@ -32,6 +36,7 @@ Metalsmith(__dirname)
         gfm: true,
         tables: true
     }))
+    .use(pageTitles())
     .use(permalinks({
         pattern: ':collection/:title'
     }))
