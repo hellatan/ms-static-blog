@@ -7,6 +7,7 @@
 
 'use strict';
 
+var IS_PROD = process.env.NODE_ENV === 'prod';
 var gulp = require('gulp');
 var Metalsmith = require('metalsmith');
 var markdown = require('metalsmith-markdown');
@@ -26,11 +27,12 @@ Metalsmith(__dirname)
         }
     })
     .source('./_src')
-    .use(scss({
-        outputStyle: 'expanded',
-        // relative to .destination() path
-        outputDir: '../css'
-    }))
+    // .clean(false).destination('.') MUST
+    // be used in conjunction with one another
+    // otherwise this entire project will
+    // get the `rm -rf ./` treatment
+    .clean(false)
+    .destination('.')
     .use(markdown({
         smartypants: true,
         gfm: true,
@@ -44,10 +46,13 @@ Metalsmith(__dirname)
         "engine": "nunjucks",
         "directory": "./_templates"
     }))
-    // .clean(false).destination('.') MUST
-    // be used in conjunction with one another
-    .clean(false)
-    .destination('.')
+    .use(scss({
+        outputStyle: IS_PROD ? 'compressed' : 'expanded',
+        // relative to .destination() path
+        outputDir: './css',
+        sourceMap: true,
+        sourceMapContents: true
+    }))
     .build(function(err) {
         if (err) {
             throw err;
