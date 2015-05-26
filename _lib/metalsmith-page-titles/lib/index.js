@@ -7,7 +7,7 @@
 
 'use strict';
 
-var findNamespaceValue = require('./findNamespaceValue');
+var findNamespaceValue = require('find-namespace-value');
 
 /**
  * Expose `plugin`.
