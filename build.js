@@ -14,6 +14,7 @@ var markdown = require('metalsmith-markdown');
 var templates = require('metalsmith-templates');
 var permalinks = require('metalsmith-permalinks');
 var scss = require('metalsmith-sass');
+
 var pageTitles = require('./_lib/metalsmith-page-titles');
 
 //var server = require('metalsmith-serve');
@@ -23,7 +24,8 @@ Metalsmith(__dirname)
     .metadata({
         site: {
             title: '1stdibs Engineering - The most beautiful code on earth',
-            url: 'http://codeat1stdibs.com'
+            url: 'http://codeat1stdibs.com',
+            assetsRoot: IS_PROD ? '/ms-static-blog' : ''
         }
     })
     .source('./_src')
