@@ -18,7 +18,7 @@ var scss = require('metalsmith-sass');
 var drafts = require('metalsmith-drafts');
 var collections = require('metalsmith-collections');
 
-var pageTitles = require('./_lib/metalsmith-page-titles');
+var pageTitles = require('metalsmith-page-titles');
 
 var serve = require('metalsmith-serve');
 var watch = require('metalsmith-watch');
