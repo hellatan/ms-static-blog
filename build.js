@@ -15,6 +15,8 @@ var markdown = require('metalsmith-markdown');
 var templates = require('metalsmith-templates');
 var permalinks = require('metalsmith-permalinks');
 var scss = require('metalsmith-sass');
+var drafts = require('metalsmith-drafts');
+var collections = require('metalsmith-collections');
 
 var pageTitles = require('./_lib/metalsmith-page-titles');
 
@@ -37,11 +39,19 @@ Metalsmith(__dirname)
     // get the `rm -rf ./` treatment
     .clean(false)
     .destination('.')
+    // remove any article with the
+    .use(drafts())
     .use(markdown({
         smartypants: true,
         // github flavored markdown
         gfm: true,
         tables: true
+    }))
+    .use(collections({
+        posts: {
+            sortBy: 'data',
+            reverse: true
+        }
     }))
     .use(pageTitles())
     .use(permalinks({
