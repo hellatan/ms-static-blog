@@ -3,7 +3,7 @@
 <head lang="en">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>{{ pageTitle | default(title) }}</title>
+    <title>{{ pageTitle | default(site.title) }}</title>
     <link rel="stylesheet" href="{{ site.assetsRoot }}/css/main.css" />
     {% if not IS_PROD %}
         <script src="http://localhost:35729/livereload.js"></script>
