@@ -19,10 +19,11 @@ var scss = require('metalsmith-sass');
 var pageTitles = require('./_lib/metalsmith-page-titles');
 
 var serve = require('metalsmith-serve');
-//var collections = require('metalsmith-collections');
+var watch = require('metalsmith-watch');
 
 Metalsmith(__dirname)
     .metadata({
+        IS_PROD: IS_PROD,
         site: {
             title: '1stdibs Engineering - The most beautiful code on earth',
             url: 'http://codeat1stdibs.com',
@@ -56,6 +57,13 @@ Metalsmith(__dirname)
         outputDir: './css',
         sourceMap: true,
         sourceMapContents: true
+    }))
+    .use(watch({
+        paths: {
+            "${source}/**/*": true,
+            "_templates/**/*": "**/*"
+        },
+        livereload: true
     }))
     .use(serve({
         port: PORT,
