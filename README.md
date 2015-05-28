@@ -50,3 +50,21 @@ Get it reviewed. That is all.
 
 Create a new Github issue. This way it's more visible engineering-wide.
 
+## Troubleshooting
+
+If you run `node build` and see the following (or similar) issue:
+
+```bash
+[metalsmith-watch] ✔︎ Watching _src/**/*
+[metalsmith-watch] ✔︎ Watching _templates/**/*
+[metalsmith-serve] serving /blog/_build at http://localhost:9999
+
+/blog/build.js:105
+            throw err;
+                  ^
+Error: Failed to write the file at: /my-blog-post/index.html
+
+EACCES, mkdir '/my-blog-post'
+```
+
+Make sure that you have all of the required YFM in your post.
