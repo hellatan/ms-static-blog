@@ -23,8 +23,21 @@ var pageTitles = require('metalsmith-page-titles');
 var serve = require('metalsmith-serve');
 var watch = require('metalsmith-watch');
 
-Metalsmith(__dirname)
-    .metadata({
+var M = Metalsmith(__dirname);
+
+if (!IS_PROD) {
+    M.use(watch(
+        {
+            paths: {
+                "${source}/**/*": "**/*",
+                "_templates/**/*": "**/*"
+            },
+            livereload: true
+        }
+    ));
+}
+
+M.metadata({
         IS_PROD: IS_PROD,
         site: {
             title: '1stdibs Engineering - The most beautiful code on earth',
@@ -37,10 +50,9 @@ Metalsmith(__dirname)
     // be used in conjunction with one another
     // otherwise this entire project will
     // get the `rm -rf ./` treatment
-    .clean(false)
-    .destination('.')
-    // remove any article with the
-    .use(drafts())
+    // .clean(false)
+    // .destination('.')
+    .destination('_build')
     .use(markdown({
         smartypants: true,
         // github flavored markdown
@@ -67,13 +79,6 @@ Metalsmith(__dirname)
         outputDir: './css',
         sourceMap: true,
         sourceMapContents: true
-    }))
-    .use(watch({
-        paths: {
-            "${source}/**/*": true,
-            "_templates/**/*": "**/*"
-        },
-        livereload: true
     }))
     .use(serve({
         port: PORT,
