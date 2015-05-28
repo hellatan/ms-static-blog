@@ -45,6 +45,7 @@ M.metadata({
         site: {
             title: '1stdibs Engineering - The most beautiful code on earth',
             url: 'http://codeat1stdibs.com',
+            // this will change once this becomes a github page, instead of github project
             assetsRoot: IS_PROD ? '/ms-static-blog' : ''
         }
     })
