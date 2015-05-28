@@ -24,6 +24,7 @@ var pageTitles = require('metalsmith-page-titles');
 
 var serve = require('metalsmith-serve');
 var watch = require('metalsmith-watch');
+var tags = require('metalsmith-tags');
 
 var M = Metalsmith(__dirname);
 
@@ -80,6 +81,15 @@ M.metadata({
         "engine": "nunjucks",
         "directory": "./_templates"
     }))
+    // need to keep `tags` after `templates` b/c of some
+    // "directory"/"template" issues, need to dig in
+    //.use(tags({
+    //    handle: 'tags',
+    //    path: 'topics/:tag.html',
+    //    template: '_templates/tags.html',
+    //    sortBy: 'date',
+    //    reverse: true
+    //}))
     .use(scss({
         outputStyle: IS_PROD ? 'compressed' : 'expanded',
         // relative to .destination() path
