@@ -10,5 +10,7 @@
 @import "libs/pure/all";
 
 body {
+    background-color: $main-bg-color;
+    color: $main-font-color;
     font-family: "Helvetic Neue", Helvetica, sans-serif;
 }
