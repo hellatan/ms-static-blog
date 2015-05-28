@@ -9,6 +9,7 @@
 
 var PORT = process.env.PORT || 9999;
 var IS_PROD = process.env.NODE_ENV === 'prod';
+var IGNORE_DRAFTS = process.env.IGNORE_DRAFTS;
 var gulp = require('gulp');
 var Metalsmith = require('metalsmith');
 var markdown = require('metalsmith-markdown');
@@ -17,6 +18,7 @@ var permalinks = require('metalsmith-permalinks');
 var scss = require('metalsmith-sass');
 var drafts = require('metalsmith-drafts');
 var collections = require('metalsmith-collections');
+var excerpts = require('metalsmith-excerpts');
 
 var pageTitles = require('metalsmith-page-titles');
 
@@ -59,6 +61,11 @@ M.metadata({
         gfm: true,
         tables: true
     }))
+    // remove any article with the
+    .use(drafts({
+        publish: IS_PROD || IGNORE_DRAFTS ? false : true
+    }))
+    .use(excerpts())
     .use(collections({
         posts: {
             sortBy: 'data',
