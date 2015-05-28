@@ -1,17 +1,15 @@
 {% extends "_templates/default.html" %}
 
 {% block content %}
-<h1>{{ title }}</h1>
-<time>{{ date }}</time>
 {{ contents | safe }}
 
-
 {% if collections.posts|length %}
-    <ul>
     {% for post in collections.posts %}
-        <li>{{ post.title }}</li>
+        <div class="post-excerpt">
+            <h2>{{ post.title }}</h2>
+            <div>{{ post.excerpt }}</div>
+        </div>
     {% endfor %}
-    </ul>
 {% endif %}
 
 {% endblock %}
