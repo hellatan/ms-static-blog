@@ -1,0 +1,19 @@
+//
+// User: daletan
+// Date: 5/29/15
+// Time: 4:55 PM
+// Copyright 1stdibs.com, Inc. 2015. All Rights Reserved.
+//
+
+@font-face {
+    font-family: $icon-name;
+
+    src:  url('#{$icon-path}.eot');
+    src:  url('#{$icon-path}.eot?#iefix')  format('embedded-opentype'),
+    url('#{$icon-path}.woff')              format('woff'),
+    url('#{$icon-path}.ttf')               format('truetype'),
+    url('#{$icon-path}.svg##{$icon-name}') format('svg');
+
+    font-weight: normal;
+    font-style: normal;
+}

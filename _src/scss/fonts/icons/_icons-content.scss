@@ -1,0 +1,28 @@
+//
+// User: daletan
+// Date: 5/29/15
+// Time: 4:46 PM
+// Copyright 1stdibs.com, Inc. 2015. All Rights Reserved.
+//
+
+/*
+    since the css property `unicode-range` is not widely supported yet,
+    the best way to use the Unicode Private Use Area values is through
+    assigning the `content` property with an actual unicode value and using
+    a class name with that `content` value.  Until `unicode-range` is widely
+    supported, this is the route to take
+*/
+
+// loop through the $icons collection
+@each $icon in $icons {
+    $key: nth($icon, 1);
+    $value: nth($icon, 2);
+    .#{$icon-prefix}-#{$key}:before {
+        content: $value;
+    }
+}
+
+// example output:
+// .dibscon-logo-1stdibs:before { content: '\f600'; }
+// .dibscon-icon-shipping-truck:before { content: $icon-truck; }
+// .dibscon-icon-price-tag:before { content: $icon-price-tag; }

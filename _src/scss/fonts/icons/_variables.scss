@@ -1,0 +1,28 @@
+//
+// User: daletan
+// Date: 5/29/15
+// Time: 4:47 PM
+// Copyright 1stdibs.com, Inc. 2015. All Rights Reserved.
+//
+// unicode values for unicode Private Use Area
+// Font Awesome <http//fortawesome.github.io/Font-Awesome/> has a great implementation of this
+
+$icon-name: "dibscons";
+$icon-path:  "/fonts/dibscons";
+$icon-prefix: "dibscon" !default;
+
+$icon-border-color:     #eee !default;
+$icon-inverse-color:    #fff !default;
+$icon-li-width:         (30em / 14) !default;
+
+// hacky sass collection of key/value pairs
+//  - http://stackoverflow.com/questions/16083292/sass-scss-object-key-value-loop
+// the key will become the class name and the quoted value will be the value
+//  - logo-1stdibs "\e600" -> dibscon-logo-1stdibs:before { content: "\e600"; }
+// changing the key will result in changing the class which will result in having
+// to change the html. however, changing the value will not require any html change
+$icons:
+    logo-1st "\e600",
+    logo-1stdibs "\e601"
+;
+

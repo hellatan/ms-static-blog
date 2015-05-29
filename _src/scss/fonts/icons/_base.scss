@@ -1,0 +1,33 @@
+//
+// User: daletan
+// Date: 5/29/15
+// Time: 4:55 PM
+// Copyright 1stdibs.com, Inc. 2015. All Rights Reserved.
+//
+
+// the only reason for this: [noop^=\"#{$icon-prefix}\"] - was to get the interpolation to
+// work for the all the class attributes. for whatever reason, not escaping the quotes
+// would not apply the interpolation
+
+.#{$icon-prefix} {
+    font-family: $icon-name;
+    font-weight: normal;
+    font-style: normal;
+    text-decoration: inherit;
+    line-height: 1;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+.#{$icon-prefix}:before {
+    text-decoration: inherit;
+    display: inline-block;
+    speak: none;
+}
+
+.screen-reader-text {
+    position: absolute;
+    text-indent: -9999px;
+    text-align: left;
+}
+
