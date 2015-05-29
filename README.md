@@ -10,7 +10,7 @@ The 1stdibs engineering blog. Built with [Metalsmith][metalsmith].
 
 ## What comprises of a post?
 
-A post should always be written in [Markdown][markdown] but also uses [Github Flavored Markdown][gfm].
+A post should always be written in [Markdown][markdown] which uses the [Github Flavored Markdown][gfm] version.
 You must include [YAML Front Matter (YFM)][yfm] at the very top of your post. The following properties are required in order to make your post render properly:
 
 - `title`: pretty self-explanatory
@@ -31,7 +31,10 @@ collection: posts
 
 ## Creating a new post
 
+Your `title` YFM will become the post title on output as a `<h1>` tag so you should not include an additional `<h1>` header. It will also be used when creating any links.
+
 ### Create a new file
+
 Naming convention: `YYYY-MM-DD-title-here.md`
 Example: 2015-05-27-my-post-title.md
 
