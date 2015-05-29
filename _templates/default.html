@@ -4,12 +4,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>{{ pageTitle | default(site.title) }}</title>
-    <link rel="stylesheet" href="{{ site.assetsRoot }}/css/main.css" />
+    <link rel="stylesheet" href="{{ site.assetsRoot }}css/main.css" />
     {% if not IS_PROD %}
         <script src="http://localhost:35729/livereload.js"></script>
     {% endif %}
 </head>
 <body>
+<h1><a href="{{ site.assetsRoot }}">1stdibs Engineering</a></h1>
 {% block content %}{% endblock %}
 </body>
 </html>
