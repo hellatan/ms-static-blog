@@ -1,13 +1,12 @@
 ---
 title: Pull Requests on Github
-date: 2015-05-27
+publishDate: 2015-05-27
+modifiedDate: 2015-05-29
 template: post.html
 collection: posts
 tags: workflow, github, git, front-end
 draft: true
 ---
-
-# Pull Requests on github
 
 This is the typical workflow for 1stdibs and front-end code reviews/pull requests:
 
