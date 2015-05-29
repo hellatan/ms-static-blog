@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+{% include "./macros.html" %}
 <html>
 <head lang="en">
     <meta charset="UTF-8">
@@ -10,7 +11,16 @@
     {% endif %}
 </head>
 <body>
-<h1><a href="{{ site.assetsRoot }}">1stdibs Engineering</a></h1>
-{% block content %}{% endblock %}
+<div class="page pure-g">
+    {% block site_header %}
+        {{ main_header(site) }}
+    {% endblock %}
+    {% block content %}{% endblock %}
+    <footer class="pure-u-1 site-footer">
+        <span>
+            &copy; {{ currentYear }} 1stdibs
+        </span>
+    </footer>
+</div>
 </body>
 </html>

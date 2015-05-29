@@ -1,7 +1,23 @@
 {% extends "_templates/default.html" %}
 
+{% block site_header %}
+    {{ main_header(site, 'h2') }}
+{% endblock %}
+
 {% block content %}
-    <h1>{{ title }}</h1>
-    <time>{{ date }}</time>
-    {{ contents | safe }}
+    <div class="pure-g">
+        <header class="pure-u-1">
+            <h1>{{ title }}</h1>
+            {% if publishDate and modifiedDate %}
+                <time datetime="{{ publishDate }}">{{ publishDate }}</time>
+                <time datetime="{{ modifiedDate }}">{{ modifiedDate }}</time>
+            {% elif post.date %}
+                <time datetime="{{ date }}">{{ date }}</time>
+            {% endif %}
+            <a href="#" rel="author">{{ author }}</a>
+        </header>
+        <div class="pure-u-1-2">
+            {{ contents | safe }}
+        </div>
+    </div>
 {% endblock %}
