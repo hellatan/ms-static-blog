@@ -25,6 +25,7 @@ var pageTitles = require('metalsmith-page-titles');
 var serve = require('metalsmith-serve');
 var watch = require('metalsmith-watch');
 var tags = require('metalsmith-tags');
+var dateFormatter = require('./_lib/metalsmith-date-formatter');
 
 var M = Metalsmith(__dirname);
 
@@ -76,6 +77,7 @@ M.metadata({
         }
     }))
     .use(pageTitles())
+    .use(dateFormatter())
     .use(permalinks({
         pattern: ':collection/:title'
     }))
