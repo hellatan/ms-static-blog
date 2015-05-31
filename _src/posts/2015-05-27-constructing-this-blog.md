@@ -19,8 +19,6 @@ instagram: hellatan
 [metalsmith]: http://metalsmith.io
 [harp]: http://harpjs.com/
 
-# How the 1stdibs Engineering blog was created
-
 After many fleeting discussions and false starts, the 1stdibs engineering blog has finally come to fruition.
 
 Since we use GitHub to host our code repositories, it was only natural to take advantage of their [GitHub Pages][gh-pages] for [Organizations][gh-pages-org]. Based on their recommendation for creating such pages, I immediately went down that route of investigating [Jekyll][gh-jekyll]. 
