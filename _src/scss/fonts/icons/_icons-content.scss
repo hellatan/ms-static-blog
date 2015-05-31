@@ -17,8 +17,19 @@
 @each $icon in $icons {
     $key: nth($icon, 1);
     $value: nth($icon, 2);
-    .#{$icon-prefix}-#{$key}:before {
-        content: $value;
+    .#{$icon-prefix}-#{$key} {
+        @extend .#{$icon-prefix};
+        &:before {
+            content: $value;
+            @each $icon-bottom-align in $icon-bottom-aligns {
+                $bottom-key: nth($icon-bottom-align, 1);
+                $bottom-value: nth($icon-bottom-align, 2);
+                @if $key == $bottom-key {
+                    position: relative;
+                    bottom: $bottom-value;
+                }
+            }
+        }
     }
 }
 
