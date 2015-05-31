@@ -9,16 +9,7 @@
 @import "border-box";
 @import "fonts/icons/icons";
 @import "libs/pure/all";
-
-body {
-    background-color: $main-bg-color;
-    color: $main-font-color;
-    font-family: "Helvetic Neue", Helvetica, sans-serif;
-}
-
-.page {
-    margin: 0 auto;
-    width: 80%;
-}
-
+@import "links";
+@import "base";
+@import "site-header";
 

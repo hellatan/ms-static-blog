@@ -1,0 +1,20 @@
+//
+// User: daletan
+// Date: 5/30/15
+// Time: 10:47 PM
+// Copyright 1stdibs.com, Inc. 2015. All Rights Reserved.
+//
+
+.regular-link {
+    color: $primary-link-color;
+    &:hover, &.is-hovered {
+        color: $primary-link-color-hover;
+    }
+}
+
+.contrast-link {
+    color: $primary-contrast-color;
+    &:hover, &.is-hovered {
+        color: $primary-contrast-color-hover;
+    }
+}
