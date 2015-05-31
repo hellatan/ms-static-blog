@@ -6,15 +6,15 @@
 
 {% block content %}
     <div class="pure-g">
-        <header class="pure-u-1">
-            <h1>{{ title }}</h1>
+        <header class="pure-u-1 post-header">
+            <h1 class="tk-museo-sans post-title">{{ title }}</h1>
             {% if publishDate and modifiedDate %}
-                <time datetime="{{ publishDate }}">{{ publishDate }}</time>
-                <time datetime="{{ modifiedDate }}">{{ modifiedDate }}</time>
+                <time datetime="{{ publishDate }}" class="tk-museo-sans post-publish-date">{{ publishDate }}</time>
+                <time datetime="{{ modifiedDate }}" class="tk-museo-sans post-modified-date">{{ modifiedDate }}</time>
             {% elif post.date %}
-                <time datetime="{{ date }}">{{ date }}</time>
+                <time datetime="{{ date }}" class="tk-museo-sanas post-date">{{ date }}</time>
             {% endif %}
-            <a href="#" rel="author">{{ author }}</a>
+            <a href="#" rel="author" class="post-author">{{ author }}</a>
         </header>
         <div class="pure-u-1-2">
             {{ contents | safe }}

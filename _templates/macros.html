@@ -1,7 +1,7 @@
 {% macro main_header(site, tag='h1') %}
-    <{{ tag }} class="pure-u-1">
-        <a href="{{ site.assetsRoot | default('/') }}" class="dibscon dibscon-logo-1stdibs">
-            <span class="screen-reader-text">1stdibs</span><span class="">Engineering</span>
+    <{{ tag }} class="pure-u-1 site-header">
+        <a href="{{ site.assetsRoot | default('/') }}" class="dibscon-logo-1stdibs regular-link site-header-link">
+            <span class="screen-reader-text">1stdibs</span><span class="site-header-tagline tk-museo-sans">Engineering</span>
         </a>
     </{{ tag }}>
 {% endmacro %}
