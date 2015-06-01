@@ -1,25 +1,18 @@
 {% extends "_templates/default.html" %}
 
 {% block content %}
-{{ contents | safe }}
-
-{% if collections.posts|length %}
-    {% for post in collections.posts %}
-        <article class="pure-u-1 post-excerpt">
-            <h2><a href="{{ post.path }}">{{ post.title }}</a></h2>
-            {% if post.publishDate and post.modifiedDate %}
-                <time datetime="{{ post.publishDate }}">{{ post.publishDate }}</time>
-                <time datetime="{{ post.modifiedDate }}">{{ post.modifiedDate }}</time>
-            {% elif post.date %}
-                <time datetime="{{ post.date }}">{{ post.date }}</time>
-            {% endif %}
-            <div>{{ post.excerpt }}</div>
-            {% for key, value in post %}
-                {{ key }}
-            {% endfor %}
-        </article>
-    {% endfor %}
-{% endif %}
-
+    {% if collections.posts|length %}
+        {% for post in collections.posts %}
+            <article class="pure-u-1 post-excerpt">
+                <h2><a href="{{ post.path }}">{{ post.title }}</a></h2>
+                {% if post.publishDate %}
+                    Published <time datetime="{{ post.publishDate }}">{{ post.publishDate }}</time>
+                {% elif post.date %}
+                    <time datetime="{{ post.date }}">{{ post.date }}</time>
+                {% endif %}
+                <div class="post-excerpt">{{ post.excerpt }}</div>
+            </article>
+        {% endfor %}
+    {% endif %}
 {% endblock %}
 

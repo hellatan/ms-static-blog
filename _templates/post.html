@@ -9,10 +9,14 @@
         <header class="pure-u-1 post-header">
             <h1 class="tk-museo-sans post-title">{{ title }}</h1>
             {% if publishDate and modifiedDate %}
-                <time datetime="{{ publishDate }}" class="tk-museo-sans post-publish-date">{{ publishDate }}</time>
-                <time datetime="{{ modifiedDate }}" class="tk-museo-sans post-modified-date">{{ modifiedDate }}</time>
+                <p class="post-date">
+                    <span class="post-published">Published <time datetime="{{ publishDate }}" class="tk-museo-sans post-publish-date">{{ publishDate }}</time></span>
+                    <span class="post-last-modified">Last Modified <time datetime="{{ modifiedDate }}" class="tk-museo-sans post-last-modified-date">{{ modifiedDate }}</time></span>
+                </p>
             {% elif post.date %}
-                <time datetime="{{ date }}" class="tk-museo-sanas post-date">{{ date }}</time>
+                <p class="post-date">
+                    <time datetime="{{ date }}" class="tk-museo-sanas post-datetime">{{ date }}</time>
+                </p>
             {% endif %}
             <a href="#" rel="author" class="post-author">{{ author }}</a>
         </header>
