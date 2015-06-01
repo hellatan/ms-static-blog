@@ -6,7 +6,8 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node build",
-    "build": "NODE_ENV=prod npm build"
+    "build": "NODE_ENV=prod npm build",
+    "ignore-drafts": "IGNORE_DRAFTS=true node build"
   },
   "repository": {
     "type": "git",
