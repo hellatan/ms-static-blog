@@ -14,7 +14,8 @@ A post should always be written in [Markdown][markdown] which uses the [Github F
 You must include [YAML Front Matter (YFM)][yfm] at the very top of your post. The following properties are required in order to make your post render properly:
 
 - `title`: pretty self-explanatory
-- `date`: in YYYY-MM-DD format)
+- `publishDate`: in YYYY-MM-DD format
+- `modifiedDate`: in YYYY-MM-DD format
 - `template`: most likely just `post.html`
 - `collection`: most likely just `posts`
 
@@ -23,7 +24,8 @@ Here is an example of the minimal YFM that you need:
 ```markdown
 ---
 title: The title of my post
-date: 2015-05-27
+publishDate: 2015-05-27
+modifiedDate: 2015-05-28
 template: post.html
 collection: posts
 ---
