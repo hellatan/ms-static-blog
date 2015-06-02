@@ -5,3 +5,20 @@
         </a>
     </{{ tag }}>
 {% endmacro %}
+
+{% macro main_footer(currentYear) %}
+    <footer class="pure-u-1 site-footer">
+        <ul>
+            <li>
+                <span>
+                    &copy; {{ currentYear }} 1stdibs
+                </span>
+            </li>
+            <li>
+                <span>
+                    <a href="/archives/">Archives</a>
+                </span>
+            </li>
+        </ul>
+    </footer>
+{% endmacro %}

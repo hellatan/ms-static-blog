@@ -18,11 +18,9 @@
         {{ main_header(site) }}
     {% endblock %}
     {% block content %}{% endblock %}
-    <footer class="pure-u-1 site-footer">
-        <span>
-            &copy; {{ currentYear }} 1stdibs
-        </span>
-    </footer>
+    {% block site_footer %}
+        {{ main_footer(currentYear) }}
+    {% endblock %}
 </div>
 </body>
 </html>
