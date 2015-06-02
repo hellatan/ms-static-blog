@@ -42,14 +42,15 @@ Example: 2015-05-27-my-post-title.md
 
 ### Add YAML Front Matter
 
-At least add the YFM from above. Other properties that can be added:
+At least add the YFM from above. Other properties that can be added (though some implementation may be TBD):
 
 - `tags`: comma delimited list of tags. there is no master list. You'll need to check the individual posts
 - `drafts`: if `true`, it will not be published, but viewable in dev mode
+- social media handles: `twitter`, `instagram`, `github` 
 
 ### Submit a pull request
 
-Get it reviewed. That is all.
+Get it reviewed.
 
 ## Topics
 
