@@ -108,9 +108,13 @@ M.metadata({
     }))
     .build(function(err) {
         if (err) {
+            if (err.message) {
+                err = err.message;
+            }
             throw err;
         }
         console.log('built');
+
         if (IS_PROD) {
             fs.copy('./_build', './', function(err) {
                 if (err) {
