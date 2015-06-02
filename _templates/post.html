@@ -10,7 +10,7 @@
             <h1 class="tk-museo-sans post-title">{{ title }}</h1>
             {% if publishDate and modifiedDate %}
                 <p class="post-date">
-                    <span class="post-published">Published <time datetime="{{ publishDate }}" class="tk-museo-sans post-publish-date">{{ publishDate }}</time></span>
+                    <span class="post-published">Published <time datetime="{{ publishDate }}" class="tk-museo-sans post-publish-date">{{ publishDate }}</time></span> /
                     <span class="post-last-modified">Last Modified <time datetime="{{ modifiedDate }}" class="tk-museo-sans post-last-modified-date">{{ modifiedDate }}</time></span>
                 </p>
             {% elif post.date %}
