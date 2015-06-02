@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+
+
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Constructing the 1stdibs Engineering blog | 1stdibs Engineering - The most beautiful code on earth</title>
+    <link rel="stylesheet" href="/ms-static-blogcss/main.css" />
+    <script src="//use.typekit.net/cbp5vke.js"></script>
+    <script>try{Typekit.load();}catch(e){}</script>
+    
+</head>
+<body>
+<div class="page pure-g">
+    
+    
+    <h2 class="pure-u-1 site-header">
+        <a href="/ms-static-blog" class="dibscon-logo-1stdibs regular-link site-header-link">
+            <span class="screen-reader-text">1stdibs</span><span class="site-header-tagline tk-museo-sans">Engineering</span>
+        </a>
+    </h2>
+
+
+    
+    <div class="pure-g">
+        <header class="pure-u-1 post-header">
+            <h1 class="tk-museo-sans post-title">Constructing the 1stdibs Engineering blog</h1>
+            
+                <p class="post-date">
+                    <span class="post-published">Published <time datetime="May 27, 2015" class="tk-museo-sans post-publish-date">May 27, 2015</time></span> /
+                    <span class="post-last-modified">Last Modified <time datetime="May 29, 2015" class="tk-museo-sans post-last-modified-date">May 29, 2015</time></span>
+                </p>
+            
+            <a href="#" rel="author" class="post-author">dale tan</a>
+        </header>
+        <div class="pure-u-1-2">
+            <p>After many fleeting discussions and false starts, the 1stdibs engineering blog has finally come to fruition.</p>
+<p>Since we use GitHub to host our code repositories, it was only natural to take advantage of their <a href="https://pages.github.com/">GitHub Pages</a> for <a href="https://help.github.com/articles/user-organization-and-project-pages/#user--organization-pages">Organizations</a>. Based on their recommendation for creating such pages, I immediately went down that route of investigating <a href="https://help.github.com/articles/using-jekyll-with-pages/">Jekyll</a>. </p>
+<p>Despite jumping right in, I was still rather reluctant to really look into Jekyll to begin with since I’m not a ruby fan (maybe that also slightly explains the delay). However, Jekyll is a rather powerful static site generator that seems to have a lot of functionality either baked in or that can be pulled from the open-source community. I stuck through with it for a few days and it just didn’t feel right. On the front-end at 1stdibs, we are ultimately a JavaScript shop (with PHP mixed in…) and I come from a strict front-end background so JS is what I know and it’s what I love to program with. Our front-end team is all about it as well so it felt more natural to create this using a JavaScript solution. </p>
+<p>I searched around and was looking into different tools like <a href="https://hexo.io">hexo</a>, <a href="https://ghost.org">ghost</a>, and <a href="http://harpjs.com/">harp</a> amongst others and even considered <a href="http://braddenver.com/blog/2015/react-static-site.html">rolling my own</a> (mainly to play with react), but they just didn’t seem to fit quite right to do what I wanted to get accomplished. Hexo and ghost look to be a couple promising node.js systems but both seem to be better suited as a standalone server. Harp seemed like a pretty decent static site generator but it was a little too opinionated for my liking (allowing only jade <em>barf</em> and ejs as their templating systems). And then rolling your own solution just takes a lot of time and effort that can be spent elsewhere (like getting our <a href="https://twitter.com/_bar51/status/599228508678844416">kegbot up and running</a>). Pre-existing solutions help get the job done at a much quicker pace.</p>
+<p>After doing more research and fiddling around with those previous solutions, I ended going with <a href="http://metalsmith.io">Metalsmith</a>. Well, it was actually my second time around with it since I did that in my initial research. I think the biggest thing that drew me back to Metalsmith is the plugin extensibility. </p>
+<p>While my first go at Metalsmith felt more like just hacking away, the second go let me get a better feel for how Metalsmith actually operated under the hood. To me, it feels kind of like a mashup of express middleware (plugin in Metalsmith land) and gulp pipeline in terms of how the “request” object is affect by each additional plugin that is used. One plugin can affect a subsequent plugin if not used properly. Kind of an annoyance of middleware, but you just need to keep an eye out for it. </p>
+<p>After having a good sense for the plugin system, I still ran into a few snafus like accidentally deleting the entire project while trying to run a build to the project root folder (hint - always use <code>.clean(false).destination(&#39;.&#39;)</code> if you want to do that) and figuring out the best way to go about having a build that could be handled by GitHub static pages without exposing any source code.</p>
+
+        </div>
+    </div>
+
+    <footer class="pure-u-1 site-footer">
+        <span>
+            &copy; 2015 1stdibs
+        </span>
+    </footer>
+</div>
+</body>
+</html>
