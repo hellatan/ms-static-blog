@@ -100,7 +100,8 @@ M.metadata({
         // relative to .destination() path
         outputDir: './css',
         sourceMap: true,
-        sourceMapContents: true
+        sourceMapContents: true,
+        includePaths: [__dirname + '/_src/scss']
     }))
     .use(serve({
         port: PORT,
