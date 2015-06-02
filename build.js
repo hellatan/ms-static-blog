@@ -27,6 +27,8 @@ var watch = require('metalsmith-watch');
 var tags = require('metalsmith-tags');
 var dateFormatter = require('metalsmith-date-formatter');
 
+var fs = require('fs-extra');
+
 var M = Metalsmith(__dirname);
 
 if (!IS_PROD) {
@@ -110,5 +112,13 @@ M.metadata({
             throw err;
         }
         console.log('built');
+        if (IS_PROD) {
+            fs.copy('./_build', './', function(err) {
+                if (err) {
+                    return console.error(err);
+                }
+                console.log('moved _build content');
+            });
+        }
     });
 

@@ -20,6 +20,7 @@
   },
   "homepage": "https://github.com/hellatan/ms-static-blog",
   "devDependencies": {
+    "fs-extra": "^0.18.4",
     "gulp": "^3.8.11",
     "metalsmith": "^1.7.0",
     "metalsmith-collections": "^0.7.0",
