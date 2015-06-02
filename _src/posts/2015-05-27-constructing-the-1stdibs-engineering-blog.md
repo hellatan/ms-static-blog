@@ -29,7 +29,7 @@ I searched around and was looking into different tools like [hexo][hexo], [ghost
 
 After doing more research and fiddling around with those previous solutions, I ended going with [Metalsmith][metalsmith]. Well, it was actually my second time around with it since I did that in my initial research. I think the biggest thing that drew me back to Metalsmith is the plugin extensibility. 
 
-While my first go at Metalsmith felt more like just hacking away, the second go let me get a better feel for how Metalsmith actually operated under the hood. To me, it feels kind of like a mashup of express middleware (plugin in Metalsmith land) and gulp in terms of how the "request" object is affect by each additional plugin that is used. One plugin can affect a subsequent plugin if not used properly. Kind of an annoyance of middleware, but you just need to keep an eye out for it. 
+While my first go at Metalsmith felt more like just hacking away, the second go let me get a better feel for how Metalsmith actually operated under the hood. To me, it feels kind of like a mashup of express middleware (plugin in Metalsmith land) and gulp pipeline in terms of how the "request" object is affect by each additional plugin that is used. One plugin can affect a subsequent plugin if not used properly. Kind of an annoyance of middleware, but you just need to keep an eye out for it. 
 
 After having a good sense for the plugin system, I still ran into a few snafus like accidentally deleting the entire project while trying to run a build to the project root folder (hint - always use `.clean(false).destination('.')` if you want to do that) and figuring out the best way to go about having a build that could be handled by GitHub static pages without exposing any source code.
 
