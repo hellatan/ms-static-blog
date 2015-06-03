@@ -11,6 +11,7 @@
     {% if not IS_PROD %}
         <script src="http://localhost:35729/livereload.js"></script>
     {% endif %}
+    {% block page_css %}{% endblock %}
 </head>
 <body>
 <div class="page pure-g">

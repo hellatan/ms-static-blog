@@ -1,5 +1,9 @@
 {% extends "_templates/default.html" %}
 
+{% block page_css %}
+    <link rel="stylesheet" href="{{ site.assetsRoot }}css/post.css" />
+{% endblock %}
+
 {% block site_header %}
     {{ main_header(site, 'h2') }}
 {% endblock %}
@@ -20,7 +24,7 @@
             {% endif %}
             <a href="#" rel="author" class="post-author">{{ author }}</a>
         </header>
-        <div class="pure-u-1-2">
+        <div class="pure-u-1-2 post-content">
             {{ contents | safe }}
         </div>
     </div>

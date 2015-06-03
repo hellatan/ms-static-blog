@@ -101,7 +101,8 @@ M.metadata({
         outputDir: './css',
         sourceMap: true,
         sourceMapContents: true,
-        includePaths: [__dirname + '/_src/scss']
+        includePaths: ['./_src/scss'],
+        files: ['./_src/scss/**/*.scss']
     }))
     .use(serve({
         port: PORT,
