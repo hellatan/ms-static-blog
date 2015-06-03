@@ -33,3 +33,24 @@ While my first go at Metalsmith felt more like just hacking away, the second go 
 
 After having a good sense for the plugin system, I still ran into a few snafus like accidentally deleting the entire project while trying to run a build to the project root folder (hint - always use `.clean(false).destination('.')` if you want to do that) and figuring out the best way to go about having a build that could be handled by GitHub static pages without exposing any source code.
 
+EDIT THIS PARAGRAPH - These are the plugins currently being used to construct this blog:
+
+```js
+"fs-extra": "^0.18.4",
+"gulp": "^3.8.11",
+"metalsmith": "^1.7.0",
+"metalsmith-collections": "^0.7.0",
+"metalsmith-date-formatter": "^1.0.1",
+"metalsmith-drafts": "0.0.1",
+"metalsmith-excerpts": "^1.0.0",
+"metalsmith-jquery": "0.0.2",
+"metalsmith-markdown": "^0.2.1",
+"metalsmith-page-titles": "^1.0.1",
+"metalsmith-permalinks": "^0.4.0",
+"metalsmith-sass": "^0.7.0",
+"metalsmith-serve": "0.0.3",
+"metalsmith-tags": "^0.9.0",
+"metalsmith-templates": "^0.7.0",
+"metalsmith-watch": "^1.0.1",
+"nunjucks": "^1.3.4"
+```
