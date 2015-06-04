@@ -73,4 +73,4 @@ Error: Failed to write the file at: /my-blog-post/index.html
 EACCES, mkdir '/my-blog-post'
 ```
 
-Make sure that you have all of the required YFM in your post.
+Make sure that you have all of the required YFM in your post. One culprit could be not having the `collection` property.
