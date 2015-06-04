@@ -27,6 +27,8 @@ var watch = require('metalsmith-watch');
 var tags = require('metalsmith-tags');
 var dateFormatter = require('metalsmith-date-formatter');
 
+var wordCount = require('metalsmith-word-count');
+
 var fs = require('fs-extra');
 
 var M = Metalsmith(__dirname);
@@ -59,7 +61,8 @@ M.metadata({
     // get the `rm -rf ./` treatment
     // .clean(false)
     // .destination('.')
-    .destination('_build')
+    .destination('./_build')
+    .use(wordCount())
     .use(markdown({
         smartypants: true,
         // github flavored markdown
