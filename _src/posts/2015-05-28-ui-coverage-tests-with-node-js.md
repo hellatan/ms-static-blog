@@ -6,4 +6,4 @@ template: post.html
 collection: posts
 ---
 
-# UI Coverage Tests with Node.js
+UI Coverage Tests

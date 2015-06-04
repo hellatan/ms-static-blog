@@ -6,4 +6,4 @@ template: post.html
 collection: posts
 ---
 
-# Why CommonJS?
+Yes to CommonJS!!!
