@@ -5,7 +5,11 @@
 // Copyright 1stdibs.com, Inc. 2015. All Rights Reserved.
 //
 
-.regular-link {
+a {
+    text-decoration: none;
+}
+
+a, .regular-link {
     color: $primary-link-color;
     &:hover, &.is-hovered {
         color: $primary-link-color-hover;
