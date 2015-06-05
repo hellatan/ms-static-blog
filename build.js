@@ -99,12 +99,10 @@ M.metadata({
     //    reverse: true
     //}))
     .use(scss({
+        // do not use `outputDir` option - it will remove any sort of file structure in the src files
         outputStyle: IS_PROD ? 'compressed' : 'expanded',
-        // relative to .destination() path
-        outputDir: './css',
         sourceMap: true,
         sourceMapContents: true,
-        includePaths: ['./_src/scss'],
         files: ['./_src/scss/**/*.scss']
     }))
     .use(serve({
