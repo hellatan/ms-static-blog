@@ -7,7 +7,11 @@
 
 // due to markdown output, can't give specific classes to elements
 // so need to nest everything for now
+// using the metalsmith-jquery plugin breaks the build step
 
 .post-content {
     display:block;
+    > p {
+        font-size: 20px;
+    }
 }
