@@ -58,7 +58,7 @@ Create a new Github issue. This way it's more visible engineering-wide.
 
 ## Troubleshooting
 
-If you run `node build` and see the following (or similar) issue:
+If you run `npm start` (aliased to `node build`) and see the following (or similar) issue:
 
 ```bash
 [metalsmith-watch] ✔︎ Watching _src/**/*
@@ -74,3 +74,11 @@ EACCES, mkdir '/my-blog-post'
 ```
 
 Make sure that you have all of the required YFM in your post. One culprit could be not having the `collection` property.
+
+# Roadmap (aka add this functionality) in no specific order
+
+- Post pagination (metalsmith-collections-paginate plugin?)
+- Create a page that groups articles under their respective author
+- Add more functionality to the YFM and displaying appropriately (ie author social media links)
+- Figure out the issue when using metalsmith-jquery (no ticket filed on github yet)
+- Add a "tags" page (would require updating posts with tags info)
