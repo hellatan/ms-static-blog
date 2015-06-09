@@ -21,6 +21,7 @@ var collections = require('metalsmith-collections');
 var excerpts = require('metalsmith-excerpts');
 
 var pageTitles = require('metalsmith-page-titles');
+var archive = require('./_lib/metalsmith-archive')
 
 var serve = require('metalsmith-serve');
 var watch = require('metalsmith-watch');
@@ -80,11 +81,23 @@ M.metadata({
             reverse: true
         }
     }))
+    .use(permalinks({
+        pattern: ':collection/:title',
+        relative: false
+    }))
+    .use(archive({
+        collections: ['posts']
+    }))
+    .use(scss({
+        // do not use `outputDir` option - it will remove any sort of file structure in the src files
+        outputStyle: IS_PROD ? 'compressed' : 'expanded',
+        sourceMap: true,
+        sourceMapContents: true,
+        files: ['./_src/scss/**/*.scss']
+    }))
+    // todo: add comment to npm module that `pageTitles` and `dateFormatter` must above `templates`
     .use(pageTitles())
     .use(dateFormatter())
-    .use(permalinks({
-        pattern: ':collection/:title'
-    }))
     .use(templates({
         "engine": "nunjucks",
         "directory": "./_templates"
@@ -98,13 +111,6 @@ M.metadata({
     //    sortBy: 'date',
     //    reverse: true
     //}))
-    .use(scss({
-        // do not use `outputDir` option - it will remove any sort of file structure in the src files
-        outputStyle: IS_PROD ? 'compressed' : 'expanded',
-        sourceMap: true,
-        sourceMapContents: true,
-        files: ['./_src/scss/**/*.scss']
-    }))
     .use(serve({
         port: PORT,
         verbose: true
