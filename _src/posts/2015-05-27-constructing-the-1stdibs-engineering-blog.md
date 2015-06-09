@@ -22,11 +22,11 @@ instagram: hellatan
 
 After many fleeting discussions and false starts, the 1stdibs engineering blog has finally come to fruition.
 
-Since we use GitHub to host our code repositories, it was only natural to take advantage of their [GitHub Pages][gh-pages] for [Organizations][gh-pages-org]. Based on their recommendation for creating such pages, I immediately went down that route of investigating [Jekyll][gh-jekyll]. 
+Since we use GitHub to host our code repositories, it was only natural to take advantage of their [GitHub Pages][gh-pages] for [Organizations][gh-pages-org]. Based on their recommendation for creating such pages, I immediately went down the route of investigating [Jekyll][gh-jekyll]. 
 
-Despite jumping right in, I was still rather reluctant to really look into Jekyll to begin with since I'm not a ruby fan (maybe that also slightly explains the delay). However, Jekyll is a rather powerful static site generator that seems to have a lot of functionality either baked in or that can be pulled from the open-source community. I stuck through with it for a few days and it just didn't feel right. On the front-end at 1stdibs, we are ultimately a JavaScript shop (with PHP mixed in...) and I come from a strict front-end background so JS is what I know and it's what I love to program with. Our front-end team is all about it as well so it felt more natural to create this using a JavaScript solution. 
+Despite jumping right in, I was still rather reluctant to really look into Jekyll to begin with since I'm not a ruby fan (maybe that also slightly explains the delay). However, Jekyll is a rather powerful static site generator that seems to have a lot of functionality either baked in or that can be pulled from the open-source community. I still stuck through with it for a few days and it just didn't feel right. On the front-end at 1stdibs, we are ultimately a JavaScript shop (with PHP mixed in...) and I come from a strict front-end background so JS is what I know and it's what I love to program with. Our front-end team is all about it as well so it felt more natural to create this using a JavaScript solution. 
 
-I searched around and was looking into different tools like [hexo][hexo], [ghost][ghost], and [harp][harp] amongst others and even considered [rolling my own][react-static] (mainly to play with react), but they just didn't seem to fit quite right to do what I wanted to get accomplished. Hexo and ghost look to be a couple promising node.js systems but both seem to be better suited as a standalone server. Harp seemed like a pretty decent static site generator but it was a little too opinionated for my liking (allowing only jade *barf* and ejs as their templating systems). And then rolling your own solution just takes a lot of time and effort that can be spent elsewhere (like getting our [kegbot up and running][bar51-status]). Pre-existing solutions help get the job done at a much quicker pace.
+I searched around and was looking into different tools like [hexo][hexo], [ghost][ghost], and [harp][harp] amongst others and even considered [rolling my own][react-static] (mainly to play with react), but they just didn't seem to fit quite right to do what I wanted to get accomplished. Hexo and ghost look to be a couple promising node.js systems but both seem to be better suited as a standalone server. Harp seemed like a pretty decent static site generator but it was a little too opinionated for my liking (allowing only jade -*barf*- and ejs as their templating systems). And then rolling your own solution just takes a lot of time and effort that can be spent elsewhere (like getting our [kegbot up and running][bar51-status]). Pre-existing solutions help get the job done at a much quicker pace.
 
 After doing more research and fiddling around with those previous solutions, I ended going with [Metalsmith][metalsmith]. Well, it was actually my second time around with it since I did that in my initial research. I think the biggest thing that drew me back to Metalsmith is the plugin extensibility. 
 
@@ -34,7 +34,9 @@ While my first go at Metalsmith felt more like just hacking away, the second go 
 
 After having a good sense for the plugin system, I still ran into a few snafus like accidentally deleting the entire project while trying to run a build to the project root folder (hint - always use `.clean(false).destination('.')` if you want to do that) and figuring out the best way to go about having a build that could be handled by GitHub static pages without exposing any source code.
 
-These are the plugins currently being used to construct this blog (reasoning further down):
+To accomplish the latter of my main issuse, I ended up using the `fs-extra` node module that basically extends the built-in node `fs` module. The only functionality that I needed was moving the contents of one directory into another. Once that was complete and handled, the blog started to really take shape.
+
+Like I originally mentioned, Metalsmith takes in plugins to manipulate the main output object. In order to get (at least) the first iteration of the blog done, these were the plugins used (reasoning further down):
 
 ```js
 "fs-extra":                     "^0.18.4",
@@ -58,10 +60,10 @@ These are the plugins currently being used to construct this blog (reasoning fur
 ```js
 "fs-extra": "^0.18.4",
 ```
-This was used as a post-build step. I couldn't figure out a good way to move files from our output directory (`_build`) via metalsmith (feel free to hit me up on (twitter)[hella-twitter] if you know otherwise) but I literally run:
+As mentioned above, this was only used to move files from our `_build` directory up to the root as a post-build step. I couldn't figure out a good way to move files from our output directory via metalsmith (feel free to hit me up on [twitter][hella-twitter] if you know otherwise) but I literally run:
 
 ```js
-fs.copy('./_build', './', cb);
+fs.copy('./_build', './', callback);
 ```
 
 to move those files so this blog plays nice with GitHub Pages.
