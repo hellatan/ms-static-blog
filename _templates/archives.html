@@ -1,2 +1,9 @@
 {% extends "_templates/default.html" %}
 
+{% block content %}
+    {% if archive %}
+        {% for year, posts in archive %}
+            {{ year }}
+        {% endfor %}
+    {% endif %}
+{% endblock %}

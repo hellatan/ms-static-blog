@@ -15,7 +15,7 @@ module.exports = plugin;
 /**
  * This groups collections into objects based on publishDate, modifiedDate, then date fields in YAML Front Matter (YFM)
  * @param options
- * @param {array} options.collections An array of collection types
+ * @param {array} options.collections An array of collection types - anything that creates root-relative articles/posts
  * @returns {Function}
  */
 function plugin(options) {
@@ -34,22 +34,23 @@ function plugin(options) {
     var collectionsRegExp = new RegExp('^' + collectionsRegExpString);
 
     return function (files, metalsmith, done) {
+        var metadata = metalsmith.metadata();
         //console.log('archive: ', files);
         //console.log('archive here: ', arguments);
         var archive = {};
-        var year;
         // todo: month archiving
         Object.keys(files).forEach(function (key) {
             var valueFound = false;
             var file;
+            var year;
             if (collectionsRegExp.test(key)) {
                 file = files[key];
                 dateFields.forEach(function (value) {
                     if (!valueFound && file[value]) {
                         // this will quit once the first instance is found
+                        year = moment.utc(file[value]);
+                        year = year.get('year');
                         if (!archive[year]) {
-                            year = moment(file[value]);
-                            year = year.get('year');
                             console.log("year::::::::::::: ", year);
                             archive[year] = [];
                         }
@@ -61,8 +62,42 @@ function plugin(options) {
                 });
             }
         });
-        console.log('a=======================rchive: ', archive['2015']);
-        metalsmith
+
+        Object.keys(archive).forEach(function (year) {
+            var posts = archive[year];
+            var lastDate;
+            posts.sort(function (a, b) {
+                var aDate;
+                var bDate;
+                switch (true) {
+                    case a.publishDate:
+                        aDate = a.publishDate;
+                        break;
+                    case a.modifiedDate:
+                        aDate = a.modifiedDate;
+                        break;
+                    case a.date:
+                        aDate = a.date;
+                        break;
+                }
+                switch (true) {
+                    case b.publishDate:
+                        bDate = b.publishDate;
+                        break;
+                    case b.modifiedDate:
+                        bDate = b.modifiedDate;
+                        break;
+                    case b.date:
+                        bDate = b.date;
+                        break;
+                }
+
+                return new Date(bDate) - new Date(aDate);
+            });
+        });
+        console.log('a=======================rchive: ', archive);
+        metadata.archive = archive;
+        console.log(metalsmith.metadata()['archive']);
         done();
     }
 }
