@@ -14,4 +14,11 @@
     > p {
         font-size: 20px;
     }
+    > pre {
+        > code {
+            background-color: red;
+            display: block;
+            padding: 20px;
+        }
+    }
 }
