@@ -1,0 +1,12 @@
+{
+	"version": 3,
+	"file": "home.css",
+	"sources": [
+		"home.scss"
+	],
+	"sourcesContent": [
+		"//\n// User: daletan\n// Date: 6/3/15\n// Time: 5:48 PM\n// Copyright 1stdibs.com, Inc. 2015. All Rights Reserved.\n//\n\n.post-excerpt {\n\n}\n"
+	],
+	"mappings": "",
+	"names": []
+}

@@ -1,0 +1,12 @@
+{
+	"version": 3,
+	"file": "post.css",
+	"sources": [
+		"post.scss"
+	],
+	"sourcesContent": [
+		"//\n// User: daletan\n// Date: 6/3/15\n// Time: 5:05 PM\n// Copyright 1stdibs.com, Inc. 2015. All Rights Reserved.\n//\n\n// due to markdown output, can't give specific classes to elements\n// so need to nest everything for now\n// using the metalsmith-jquery plugin breaks the build step\n\n.post-content {\n    display:block;\n    > p {\n        font-size: 20px;\n    }\n    > pre {\n        > code {\n            background-color: red;\n            display: block;\n            padding: 20px;\n        }\n    }\n}\n"
+	],
+	"mappings": "AAWA,aAAa,AAAC,CACV,OAAO,CAAC,KAAM,CADH,AAET,aAAa,CAAC,CAAC,AAAb,CACA,SAAS,CAAE,IAAK,CADf,AAIC,aAAa,CAAC,GAAG,CAAC,IAAI,AAAjB,CACH,gBAAgB,CAAE,GAAI,CACtB,OAAO,CAAE,KAAM,CACf,OAAO,CAAE,IAAK,CAHV",
+	"names": []
+}
