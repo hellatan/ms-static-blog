@@ -9,7 +9,7 @@ github: hellatan
 instagram: hellatan
 ---
 
-[bar51-status]: https://twitter.com/_bar51/status/599228508678844416
+[bar51-status]: https://twitter.com/_bar51/status/59228508678844416
 [gh-pages]: https://pages.github.com/
 [gh-pages-org]: https://help.github.com/articles/user-organization-and-project-pages/#user--organization-pages
 [gh-jekyll]: https://help.github.com/articles/using-jekyll-with-pages/
