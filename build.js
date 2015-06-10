@@ -134,6 +134,7 @@ M.metadata({
                     return console.error(err);
                 }
                 console.log('moved _build content');
+                process.exit();
             });
         }
     });
