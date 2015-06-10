@@ -86,7 +86,8 @@ M.metadata({
         relative: false
     }))
     .use(archive({
-        collections: ['posts']
+        collections: 'posts',
+        groupByMonth: true
     }))
     .use(scss({
         // do not use `outputDir` option - it will remove any sort of file structure in the src files
