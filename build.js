@@ -23,6 +23,8 @@ var excerpts = require('metalsmith-excerpts');
 var pageTitles = require('metalsmith-page-titles');
 var archive = require('./_lib/metalsmith-archive')
 
+var codeHighlight = require('metalsmith-code-highlight');
+
 var serve = require('metalsmith-serve');
 var watch = require('metalsmith-watch');
 var tags = require('metalsmith-tags');
@@ -112,6 +114,7 @@ M.metadata({
     //    sortBy: 'date',
     //    reverse: true
     //}))
+    .use(codeHighlight())
     .use(serve({
         port: PORT,
         verbose: true
