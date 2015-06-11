@@ -6,17 +6,17 @@
     </{{ tag }}>
 {% endmacro %}
 
-{% macro main_footer(currentYear) %}
-    <footer class="pure-u-1 site-footer">
+{% macro main_footer(site, currentYear) %}
+    <footer class="pure-u-1 site-footer cf">
         <ul class="site-footer-list">
-            <li class="site-footer-list-item">
-                <span>
-                    &copy; {{ currentYear }} 1stdibs
-                </span>
-            </li>
-            <li class="site-footer-list-item">
+            <li class="site-footer-list-item archive-item">
                 <span>
                     <a href="/archives/">Archives</a>
+                </span>
+            </li>
+            <li class="site-footer-list-item copyright-item">
+                <span>
+                    &copy; {{ currentYear }} 1stdibs
                 </span>
             </li>
         </ul>

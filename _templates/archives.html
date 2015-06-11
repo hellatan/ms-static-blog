@@ -1,10 +1,14 @@
 {% extends "_templates/default.html" %}
 
+{% block page_css %}
+    <link rel="stylesheet" href="{{ site.assetsRoot }}css/pages/archives.css" />
+{% endblock %}
+
 {% block content %}
     {% if archive %}
         {% for list in archive %}
-            <div class="year">
-                <h3>{{ list.year }}</h3>
+            <div class="year-group">
+                <h2 class="year-group-header">{{ list.year }}</h2>
                 {% if list.months and list.months.length %}
                     {{ displayMonths(list.months) }}
                 {% endif %}
@@ -15,9 +19,9 @@
 
 {% macro displayMonths(monthsData) %}
     {% for month in monthsData %}
-        <div class="month-wrapper">
-            <h4 class="month-name">{{ month.name }}</h4>
-            {{ postsList(month.data, 'month') }}
+        <div class="month-group">
+            <h3 class="month-group-header">{{ month.name }}</h3>
+            {{ postsList(month.data, 'month-group') }}
         </div>
     {% endfor %}
 {% endmacro %}
