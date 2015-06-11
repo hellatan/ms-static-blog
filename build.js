@@ -79,7 +79,7 @@ M.metadata({
     .use(excerpts())
     .use(collections({
         posts: {
-            sortBy: 'data',
+            sortBy: 'publishDate',
             reverse: true
         }
     }))
