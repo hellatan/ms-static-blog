@@ -11,6 +11,7 @@ var assert = require('assert');
 var Metalsmith = require('metalsmith');
 var archive = require('..');
 var isArray = require('lodash.isarray');
+var moment = require('moment');
 
 describe('metalsmith archive groupings', function () {
     var M;
@@ -69,12 +70,55 @@ describe('metalsmith archive groupings', function () {
                 archive.forEach(function (archiveYear) {
                     assert.ok(isArray(archiveYear.months));
                     archiveYear.months.forEach(function (month) {
-                        assert.ok(typeof month.name === 'string');
+                        assert.ok(typeof month.name === 'string' && month.name !== 'undefined');
                         assert.ok(isArray(month.data));
                         assert.ok(month.data.length > 0);
                     });
                 });
                 done();
             });
+    });
+    it('should not go to the previous year', function (done) {
+        M.use(archive({
+                groupByMonth: true,
+                collections: 'year'
+            }))
+            .build(function (err) {
+                if (err) {
+                    return done(err);
+                }
+                var metadata = M.metadata();
+                var archive = metadata.archive;
+                archive.forEach(function (archiveYear) {
+                    assert.ok(isArray(archiveYear.months));
+                    assert.ok(archiveYear.year === '2016');
+                    archiveYear.months.forEach(function (month) {
+                        var data = month.data;
+                        assert.equal(month.name, 'January');
+                        assert.ok(isArray(data));
+                        assert.ok(data.length > 0);
+                        assert.ok(moment.utc(data[0].publishDate).format('MMMM D, YYYY') === 'January 1, 2016');
+                    });
+                });
+                done();
+            });
+    });
+    describe('asc sort order', function () {
+        it('should sort posts earliest to latest', function (done) {
+            M.use(archive({
+                    listSortOrder: 'asc',
+                    collection: 'posts'
+                }))
+                .build(function (err) {
+                    if (err) {
+                        return done(err);
+                    }
+                    var metadata = M.metadata();
+                    var archive = metadata.archive;
+                    assert.equal(archive[0].year, '2014');
+                    assert.equal(archive[1].year, '2015');
+                    done();
+                });
+        });
     });
 });

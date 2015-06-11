@@ -12,6 +12,9 @@ var moment = require('moment');
 var isEmpty = require('lodash.isempty');
 var remove = require('lodash.remove');
 
+// no need for ORDER_ASC since we're only ever checking `desc`
+var ORDER_DESC = 'desc';
+
 module.exports = plugin;
 
 /**
@@ -19,9 +22,10 @@ module.exports = plugin;
  * @param options
  * @param {array|string} options.collections An array of collection types - anything that creates root-relative articles/posts or a single string (gets converted to array)
  * @param {array|string} options.dateFields metadata fields to check for on the file
- * @param {boolean} options.groupByMonth Group the posts by month? Otherwise grouped per year only
- * @param {string} options.listSortOrder Sort order for year, `asc` or `desc`, defaults to 'desc';
- * @param {string} options.postSortOrder Sort order for individual posts, `asc` or `desc`, defaults to 'desc';
+ * @param {boolean} options.groupByMonth Group the posts by month? Otherwise grouped per year only, defaults to `true`
+ * @param {string} options.listSortOrder Sort order for year, `asc` or `desc`, defaults to 'desc' (current year first)
+ * @param {string} options.postSortOrder Sort order for individual posts, `asc` or `desc`, defaults to 'desc' (most recent post first)
+ * @param {string} options.monthSortOrder Sort order for months, `asc` or `desc`, defaults to 'desc' (current month is first)
  * @param {string} options.locale moment.js locale value
  * @returns {Function}
  */
@@ -29,9 +33,10 @@ function plugin(options) {
     options = options || {};
     var collections     = options.collections || ['posts'];
     var dateFields      = options.dateFields || ['publishDate', 'modifiedDate', 'date'];
-    var groupByMonth    = !!options.groupByMonth;
-    var listSortOrder   = options.listSortOrder || 'desc';
-    var postSortOrder   = options.postSortOrder || 'desc';
+    var groupByMonth    = options.groupByMonth !== false;
+    var listSortOrder   = options.listSortOrder || ORDER_DESC;
+    var postSortOrder   = options.postSortOrder || ORDER_DESC;
+    var monthSortOrder  = options.monthSortOrder || ORDER_DESC;
     var locale          = options.locale || '';
 
     if (typeof collections === 'string') {
@@ -60,7 +65,6 @@ function plugin(options) {
     return function (files, metalsmith, done) {
         var metadata = metalsmith.metadata();
         var archive = {};
-        // todo: month archiving
         Object.keys(files).forEach(function (key) {
             var valueFound = false;
             var file;
@@ -93,7 +97,7 @@ function plugin(options) {
 
         if (groupByMonth) {
             // sort the posts per year/month
-            archive = sortArchiveMonth(archive, dateFields);
+            archive = sortArchiveMonth(archive, dateFields, monthSortOrder);
         }
 
         // create the archive metadata
@@ -107,12 +111,13 @@ function plugin(options) {
  * @param {object} archiveList
  * @param {array} dateFields
  */
-function sortArchiveMonth(archiveList, dateFields) {
+function sortArchiveMonth(archiveList, dateFields, order) {
     var localeMonths = moment.months();
     archiveList.forEach(function (list) {
         var monthData = {};
         if (!list.months) {
             // create an array with 12 indexes in it
+            // remove empties later
             list.months = new Array(12);
         }
         if (list.data) {
@@ -128,11 +133,17 @@ function sortArchiveMonth(archiveList, dateFields) {
                 });
                 if (date) {
                     // create a new moment date object
-                    date = moment(date);
-                    // find the month this post is in
+                    // since this is utc, the timezone could actually
+                    // bump your date up one day
+                    date = moment.utc(date);
                     monthIndex = date.get('month');
+
+                    // get the month this post is in, we don't care about timezone
                     monthName = localeMonths[monthIndex];
                     if (!monthData[monthName]) {
+                        // create a hash of the actual month name
+                        // `data` is an array of objects for the posts
+                        // `index` is the Date index of a month used to splice into the `list.months` array
                         monthData[monthName] = {
                             data: [],
                             index: monthIndex
@@ -154,11 +165,11 @@ function sortArchiveMonth(archiveList, dateFields) {
             });
             // remove undefined entries
             list.months = remove(list.months);
-            console.log('list.months: ', list.months);
+            if (order === ORDER_DESC) {
+                list.months = list.months.reverse();
+            }
         }
     });
-
-    console.log(archiveList);
 
     return archiveList;
 }
@@ -179,7 +190,7 @@ function sortArchiveYear(archiveList, order) {
     });
 
     ret.sort(function (a, b) {
-        if (order === 'desc') {
+        if (order === ORDER_DESC) {
             return b.year - a.year
         }
         return a.year - b.year;
@@ -201,8 +212,8 @@ function sortArchivePosts(archive, dateFields, sortOrder) {
             var aDate;
             var bDate;
             dateFields.forEach(function (field) {
-                // check the each `post` to see if the `field`
-                // property is in the post metadata
+                // check each `post` to see if the `field`
+                // property is in the post metadata/YFM
                 if (!aDate && a[field]) {
                     aDate = a[field];
                 }
@@ -212,7 +223,7 @@ function sortArchivePosts(archive, dateFields, sortOrder) {
             });
             aDate = new Date(aDate);
             bDate = new Date(bDate);
-            if (sortOrder === 'desc') {
+            if (sortOrder === ORDER_DESC) {
                 return bDate - aDate;
             }
             // asc
