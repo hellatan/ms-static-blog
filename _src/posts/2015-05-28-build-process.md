@@ -6,4 +6,4 @@ template: post.html
 collection: posts
 ---
 
-# 1stdibs build process
+This is about the 1stdibs build process.

@@ -1,7 +1,7 @@
 ---
 title: Selenium tests in node.js
-draft: true
-date: 2015-06-01
+publishDate: 2015-06-01
+modifiedDate: 2015-06-01
 template: post.html
 collection: posts
 ---
