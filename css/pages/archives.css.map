@@ -1,0 +1,12 @@
+{
+	"version": 3,
+	"file": "archives.css",
+	"sources": [
+		"archives.scss"
+	],
+	"sourcesContent": [
+		"//\n// User: daletan\n// Date: 6/11/15\n// Time: 7:19 PM\n// Copyright 1stdibs.com, Inc. 2015. All Rights Reserved.\n//\n\n.year-group {\n\n}\n\n.year-group-header {\n    background-color: grey;\n    padding: 10px;\n}\n\n.month-group {\n    padding: 0 20px;\n}\n\n.month-group-header {\n    margin-bottom: 0;\n}\n\n.month-group-list {\n    list-style: square;\n    margin-top: 0;\n}\n\n.month-group-list-item {\n    padding: 10px 0;\n}\n"
+	],
+	"mappings": "AAWA,kBAAkB,AAAC,CACf,gBAAgB,CAAE,IAAK,CACvB,OAAO,CAAE,IAAK,CAFE,AAKpB,YAAY,AAAC,CACT,OAAO,CAAE,CAAC,CAAC,IAAI,CADL,AAId,mBAAmB,AAAC,CAChB,aAAa,CAAE,CAAE,CADA,AAIrB,iBAAiB,AAAC,CACd,UAAU,CAAE,MAAO,CACnB,UAAU,CAAE,CAAE,CAFC,AAKnB,sBAAsB,AAAC,CACnB,OAAO,CAAE,MAAO,CADI",
+	"names": []
+}
