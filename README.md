@@ -58,6 +58,8 @@ Create a new Github issue. This way it's more visible engineering-wide.
 
 ## Troubleshooting
 
+#### EACCES, mkdir '/some-directory'
+
 If you run `npm start` (aliased to `node build`) and see the following (or similar) issue:
 
 ```bash
@@ -74,6 +76,10 @@ EACCES, mkdir '/my-blog-post'
 ```
 
 Make sure that you have all of the required YFM in your post. One culprit could be not having the `collection` property.
+
+#### My post shows up out of order on the homepage
+
+Make sure you have `publishDate` set in your YFM. This is the property posts are ordered in.
 
 # Creating Metalsmith plugins
 
