@@ -9,16 +9,21 @@
 // so need to nest everything for now
 // using the metalsmith-jquery plugin breaks the build step
 
+@import "../code-highlights/highlights";
+
 .post-content {
     display:block;
     > p {
         font-size: 20px;
-    }
-    > pre {
         > code {
-            background-color: red;
-            display: block;
-            padding: 20px;
+            background-color: grey;
+            border-radius: 2px;
+            font-size: 0.8em;
+            padding: 2px 3px;
         }
     }
+}
+
+.post-author {
+    text-transform: capitalize;
 }

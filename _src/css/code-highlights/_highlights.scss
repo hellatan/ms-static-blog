@@ -1,0 +1,26 @@
+//
+// User: daletan
+// Date: 6/12/15
+// Time: 5:42 PM
+// Copyright 1stdibs.com, Inc. 2015. All Rights Reserved.
+//
+
+
+// overrides for http://yandex.st/highlightjs/8.0/styles/default.min.css
+
+.lang-highlight {
+    background-color: grey;
+    border-radius: 5px;
+    > code {
+        display: block;
+        padding: 20px;
+        width: 100%;
+    }
+
+}
+
+// TODO: better way to target these classes
+.hljs-number {
+    color: rgb(169, 169, 169);
+}
+
