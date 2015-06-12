@@ -1,7 +1,7 @@
 ---
 title: Constructing the 1stdibs Engineering blog
 publishDate: 2015-05-27
-modifiedDate: 2015-05-29
+modifiedDate: 2015-06-12
 template: post.html
 collection: posts
 author: dale tan
