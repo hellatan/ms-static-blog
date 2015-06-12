@@ -21,7 +21,7 @@ var collections = require('metalsmith-collections');
 var excerpts = require('metalsmith-excerpts');
 
 var pageTitles = require('metalsmith-page-titles');
-var archive = require('./_lib/metalsmith-archive')
+var archive = require('metalsmith-archive')
 
 var codeHighlight = require('metalsmith-code-highlight');
 
