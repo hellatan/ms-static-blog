@@ -2,11 +2,13 @@
 	"version": 3,
 	"file": "post.css",
 	"sources": [
-		"post.scss"
+		"post.scss",
+		"../code-highlights/_highlights.scss"
 	],
 	"sourcesContent": [
-		"//\n// User: daletan\n// Date: 6/3/15\n// Time: 5:05 PM\n// Copyright 1stdibs.com, Inc. 2015. All Rights Reserved.\n//\n\n// due to markdown output, can't give specific classes to elements\n// so need to nest everything for now\n// using the metalsmith-jquery plugin breaks the build step\n\n.post-content {\n    display:block;\n    > p {\n        font-size: 20px;\n    }\n    > pre {\n        > code {\n            background-color: red;\n            display: block;\n            padding: 20px;\n        }\n    }\n}\n"
+		"//\n// User: daletan\n// Date: 6/3/15\n// Time: 5:05 PM\n// Copyright 1stdibs.com, Inc. 2015. All Rights Reserved.\n//\n\n// due to markdown output, can't give specific classes to elements\n// so need to nest everything for now\n// using the metalsmith-jquery plugin breaks the build step\n\n@import \"../code-highlights/highlights\";\n\n.post-content {\n    display:block;\n    > p {\n        font-size: 20px;\n        > code {\n            background-color: grey;\n            border-radius: 2px;\n            font-size: 0.8em;\n            padding: 2px 3px;\n        }\n    }\n}\n\n.post-author {\n    text-transform: capitalize;\n}\n",
+		"//\n// User: daletan\n// Date: 6/12/15\n// Time: 5:42 PM\n// Copyright 1stdibs.com, Inc. 2015. All Rights Reserved.\n//\n\n\n// overrides for http://yandex.st/highlightjs/8.0/styles/default.min.css\n\n.lang-highlight {\n    background-color: grey;\n    border-radius: 5px;\n    > code {\n        display: block;\n        padding: 20px;\n        width: 100%;\n    }\n\n}\n\n// TODO: better way to target these classes\n.hljs-number {\n    color: rgb(169, 169, 169);\n}\n\n"
 	],
-	"mappings": "AAWA,aAAa,AAAC,CACV,OAAO,CAAC,KAAM,CADH,AAET,aAAa,CAAC,CAAC,AAAb,CACA,SAAS,CAAE,IAAK,CADf,AAIC,aAAa,CAAC,GAAG,CAAC,IAAI,AAAjB,CACH,gBAAgB,CAAE,GAAI,CACtB,OAAO,CAAE,KAAM,CACf,OAAO,CAAE,IAAK,CAHV",
+	"mappings": "ACUA,eAAe,AAAC,CACZ,gBAAgB,CAAE,IAAK,CACvB,aAAa,CAAE,GAAI,CAFN,AAGX,eAAe,CAAC,IAAI,AAAf,CACH,OAAO,CAAE,KAAM,CACf,OAAO,CAAE,IAAK,CACd,KAAK,CAAE,IAAK,CAHR,AASZ,YAAY,AAAC,CACT,KAAK,CAAE,OAAG,CADA,ADTd,aAAa,AAAC,CACV,OAAO,CAAC,KAAM,CADH,AAET,aAAa,CAAC,CAAC,AAAb,CACA,SAAS,CAAE,IAAK,CADf,AAEC,aAAa,CAAC,CAAC,CAAC,IAAI,AAAf,CACH,gBAAgB,CAAE,IAAK,CACvB,aAAa,CAAE,GAAI,CACnB,SAAS,CAAE,KAAM,CACjB,OAAO,CAAE,GAAG,CAAC,GAAG,CAJZ,AAShB,YAAY,AAAC,CACT,cAAc,CAAE,UAAW,CADjB",
 	"names": []
 }

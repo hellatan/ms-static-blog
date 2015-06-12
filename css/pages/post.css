@@ -1,3 +1,3 @@
-.post-content{display:block}.post-content>p{font-size:20px}.post-content>pre>code{background-color:red;display:block;padding:20px}
+.lang-highlight{background-color:grey;border-radius:5px}.lang-highlight>code{display:block;padding:20px;width:100%}.hljs-number{color:#a9a9a9}.post-content{display:block}.post-content>p{font-size:20px}.post-content>p>code{background-color:grey;border-radius:2px;font-size:0.8em;padding:2px 3px}.post-author{text-transform:capitalize}
 
 /*# sourceMappingURL=post.css.map */

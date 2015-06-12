@@ -34,12 +34,12 @@
                     <span class="post-last-modified">Last Modified <time datetime="June 12, 2015" class="tk-museo-sans post-last-modified-date">June 12, 2015</time></span>
                 </p>
             
-            <a href="#" rel="author" class="post-author">thomas hallock</a>
+            <span rel="author" class="post-author">thomas hallock</span>
         </header>
         <div class="pure-u-1 post-content">
             <p>Oops! Did you accidentally force push the wrong commit to a branch on github? Even worse, do none of your coworkers have the old (correct) commit commit on their machine because it that commit was created by github when merging pull requeest? Well, you are outta luck as far as the github UI goes; there’s no way that I can find to force reset a branch to a specific commit. Calm down, there is hope. Here is what you have to do:</p>
 <p>Find the hash of commit that you force pushed over. Git should have told you this at the time you did the force push:</p>
-<pre><code class="lang-bash">% git push --force origin master
+<pre class="lang-highlight"><code class="lang-bash">% git push --force origin master
 Counting objects: <span class="hljs-number">4</span>, done.
 Delta compression using up to <span class="hljs-number">8</span> threads.
 Compressing objects: <span class="hljs-number">100</span>% (<span class="hljs-number">2</span>/<span class="hljs-number">2</span>), done.
@@ -54,12 +54,12 @@ To https://github.com/antialias/antialias.github.io.git
 <p>Find the specific network request that created the new branch. It should be a POST:</p>
 <p><img src="/images/copy-curl-branch.png" alt="copy branch curl"></p>
 <p>You should have a string in your clipboard that looks like this:</p>
-<pre><code class="lang-bash">curl <span class="hljs-string">'https://github.com/antialias/antialias.github.io/branches'</span> -H <span class="hljs-string">'Cookie: {a mess of cookies}'</span> -H <span class="hljs-string">'Origin: https://github.com'</span> -H {a mess of headers} --data <span class="hljs-string">'utf8=%E2%9C%93&amp;authenticity\_token=__my-secret-auth-token__%3D%3D&amp;name=dummy&amp;branch=master&amp;path='</span> --compressed
+<pre class="lang-highlight"><code class="lang-bash">curl <span class="hljs-string">'https://github.com/antialias/antialias.github.io/branches'</span> -H <span class="hljs-string">'Cookie: {a mess of cookies}'</span> -H <span class="hljs-string">'Origin: https://github.com'</span> -H {a mess of headers} --data <span class="hljs-string">'utf8=%E2%9C%93&amp;authenticity\_token=__my-secret-auth-token__%3D%3D&amp;name=dummy&amp;branch=master&amp;path='</span> --compressed
 </code></pre>
 <p>See where we are going with this? Now that you have this request copied, delete that new dummy branch from github because we are going to make it again, but a little differently.</p>
 <p>Find the name of the parent branch in the the curl command that you copied. In this case it was <code>master</code>. Replace the parent branch name with the hash that you found from the output of your accidental force push, <code class="lang-dns"><span class="hljs-number">3c15973</span></code>. Now paste this modified command into your terminal.</p>
 <p>If all goes well, your dummy branch will be re-created and will be pointing to the commit that you overwrote with your accidental force push. <code class="lang-nginx"><span class="hljs-title">git</span> fetch</code> and the old commit that you want will be pulled down to you local repository. Now force reset your branch to the old commit and force-push it back up to github:</p>
-<pre><code class="lang-bash">git checkout master
+<pre class="lang-highlight"><code class="lang-bash">git checkout master
 git reset --hard `<span class="hljs-number">3</span>c15973`
 git push --force origin master
 </code></pre>

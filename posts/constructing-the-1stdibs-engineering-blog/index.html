@@ -34,7 +34,7 @@
                     <span class="post-last-modified">Last Modified <time datetime="May 29, 2015" class="tk-museo-sans post-last-modified-date">May 29, 2015</time></span>
                 </p>
             
-            <a href="#" rel="author" class="post-author">dale tan</a>
+            <span rel="author" class="post-author">dale tan</span>
         </header>
         <div class="pure-u-1 post-content">
             <p>After many fleeting discussions and false starts, the 1stdibs engineering blog has finally come to fruition.</p>
@@ -46,7 +46,7 @@
 <p>After having a good sense for the plugin system, I still ran into a few snafus like accidentally deleting the entire project while trying to run a build to the project root folder (hint - always use <code class="lang-stylus">.<span class="hljs-function"><span class="hljs-title">clean</span><span class="hljs-params">(false)</span></span>.<span class="hljs-function"><span class="hljs-title">destination</span><span class="hljs-params">(<span class="hljs-string">'.'</span>)</span></span></code> if you want to do that) and figuring out the best way to go about having a build that could be handled by GitHub static pages without exposing any source code.</p>
 <p>To accomplish the latter of my main issuse, I ended up using the <code class="lang-dos"><span class="hljs-built_in">fs</span>-extra</code> node module that basically extends the built-in node <code class="lang-dos"><span class="hljs-built_in">fs</span></code> module. The only functionality that I needed was moving the contents of one directory into another. Once that was complete and handled, the blog started to really take shape.</p>
 <p>Like I originally mentioned, Metalsmith takes in plugins to manipulate the main output object. In order to get (at least) the first iteration of the blog done, these were the plugins used (reasoning further down):</p>
-<pre><code class="lang-js"><span class="hljs-string">"fs-extra"</span>:                     <span class="hljs-string">"^0.18.4"</span>,
+<pre class="lang-highlight"><code class="lang-js"><span class="hljs-string">"fs-extra"</span>:                     <span class="hljs-string">"^0.18.4"</span>,
 <span class="hljs-string">"metalsmith"</span>:                   <span class="hljs-string">"^1.7.0"</span>,
 <span class="hljs-string">"metalsmith-collections"</span>:       <span class="hljs-string">"^0.7.0"</span>,
 <span class="hljs-string">"metalsmith-date-formatter"</span>:    <span class="hljs-string">"^1.0.1"</span>,
@@ -63,41 +63,41 @@
 <span class="hljs-string">"metalsmith-watch"</span>:             <span class="hljs-string">"^1.0.1"</span>,
 <span class="hljs-string">"nunjucks"</span>:                     <span class="hljs-string">"^1.3.4"</span>
 </code></pre>
-<pre><code class="lang-js"><span class="hljs-string">"fs-extra"</span>: <span class="hljs-string">"^0.18.4"</span>,
+<pre class="lang-highlight"><code class="lang-js"><span class="hljs-string">"fs-extra"</span>: <span class="hljs-string">"^0.18.4"</span>,
 </code></pre>
 <p>As mentioned above, this was only used to move files from our <code>_build</code> directory up to the root as a post-build step. I couldn’t figure out a good way to move files from our output directory via metalsmith (feel free to hit me up on <a href="https://twitter.com/hellatan">twitter</a> if you know otherwise) but I literally run:</p>
-<pre><code class="lang-js">fs.copy(<span class="hljs-string">'./_build'</span>, <span class="hljs-string">'./'</span>, callback);
+<pre class="lang-highlight"><code class="lang-js">fs.copy(<span class="hljs-string">'./_build'</span>, <span class="hljs-string">'./'</span>, callback);
 </code></pre>
 <p>to move those files so this blog plays nice with GitHub Pages.</p>
-<pre><code class="lang-js"><span class="hljs-string">"metalsmith"</span>: <span class="hljs-string">"^1.7.0"</span>,
+<pre class="lang-highlight"><code class="lang-js"><span class="hljs-string">"metalsmith"</span>: <span class="hljs-string">"^1.7.0"</span>,
 </code></pre>
 <p>The main library. At this point we’re using version 1.7.0.</p>
-<pre><code class="lang-js"><span class="hljs-string">"metalsmith-date-formatter"</span>: <span class="hljs-string">"^1.0.1"</span>,
+<pre class="lang-highlight"><code class="lang-js"><span class="hljs-string">"metalsmith-date-formatter"</span>: <span class="hljs-string">"^1.0.1"</span>,
 </code></pre>
-<pre><code class="lang-js"><span class="hljs-string">"metalsmith-drafts"</span>: <span class="hljs-string">"0.0.1"</span>,
+<pre class="lang-highlight"><code class="lang-js"><span class="hljs-string">"metalsmith-drafts"</span>: <span class="hljs-string">"0.0.1"</span>,
 </code></pre>
-<pre><code class="lang-js"><span class="hljs-string">"metalsmith-excerpts"</span>: <span class="hljs-string">"^1.0.0"</span>,
+<pre class="lang-highlight"><code class="lang-js"><span class="hljs-string">"metalsmith-excerpts"</span>: <span class="hljs-string">"^1.0.0"</span>,
 </code></pre>
-<pre><code class="lang-js"><span class="hljs-string">"metalsmith-jquery"</span>: <span class="hljs-string">"0.0.2"</span>,
+<pre class="lang-highlight"><code class="lang-js"><span class="hljs-string">"metalsmith-jquery"</span>: <span class="hljs-string">"0.0.2"</span>,
 </code></pre>
 <p>There’s a caveat to this one in that it technically isn’t currently being used but I think it’s still worthwhile to point out some issues I ran into. - I was originally going to use the <code>metalsmith-jquery</code> plugin and submitted a small patch to it, but for some reason, it doesn’t play nice with the <code>metalsmith-sass</code> plugin so I just ditched the jquery plugin since I could work around not having classes on my content elements; something I’m not a big fan of, but for time sake, this was the path of least resistance.</p>
-<pre><code class="lang-js"><span class="hljs-string">"metalsmith-markdown"</span>: <span class="hljs-string">"^0.2.1"</span>,
+<pre class="lang-highlight"><code class="lang-js"><span class="hljs-string">"metalsmith-markdown"</span>: <span class="hljs-string">"^0.2.1"</span>,
 </code></pre>
-<pre><code class="lang-js"><span class="hljs-string">"metalsmith-page-titles"</span>: <span class="hljs-string">"^1.0.1"</span>,
+<pre class="lang-highlight"><code class="lang-js"><span class="hljs-string">"metalsmith-page-titles"</span>: <span class="hljs-string">"^1.0.1"</span>,
 </code></pre>
-<pre><code class="lang-js"><span class="hljs-string">"metalsmith-permalinks"</span>: <span class="hljs-string">"^0.4.0"</span>,
+<pre class="lang-highlight"><code class="lang-js"><span class="hljs-string">"metalsmith-permalinks"</span>: <span class="hljs-string">"^0.4.0"</span>,
 </code></pre>
-<pre><code class="lang-js"><span class="hljs-string">"metalsmith-sass"</span>: <span class="hljs-string">"^0.7.0"</span>,
+<pre class="lang-highlight"><code class="lang-js"><span class="hljs-string">"metalsmith-sass"</span>: <span class="hljs-string">"^0.7.0"</span>,
 </code></pre>
-<pre><code class="lang-js"><span class="hljs-string">"metalsmith-serve"</span>: <span class="hljs-string">"0.0.3"</span>,
+<pre class="lang-highlight"><code class="lang-js"><span class="hljs-string">"metalsmith-serve"</span>: <span class="hljs-string">"0.0.3"</span>,
 </code></pre>
-<pre><code class="lang-js"><span class="hljs-string">"metalsmith-tags"</span>: <span class="hljs-string">"^0.9.0"</span>,
+<pre class="lang-highlight"><code class="lang-js"><span class="hljs-string">"metalsmith-tags"</span>: <span class="hljs-string">"^0.9.0"</span>,
 </code></pre>
-<pre><code class="lang-js"><span class="hljs-string">"metalsmith-templates"</span>: <span class="hljs-string">"^0.7.0"</span>,
+<pre class="lang-highlight"><code class="lang-js"><span class="hljs-string">"metalsmith-templates"</span>: <span class="hljs-string">"^0.7.0"</span>,
 </code></pre>
-<pre><code class="lang-js"><span class="hljs-string">"metalsmith-watch"</span>: <span class="hljs-string">"^1.0.1"</span>,
+<pre class="lang-highlight"><code class="lang-js"><span class="hljs-string">"metalsmith-watch"</span>: <span class="hljs-string">"^1.0.1"</span>,
 </code></pre>
-<pre><code class="lang-js"><span class="hljs-string">"nunjucks"</span>: <span class="hljs-string">"^1.3.4"</span>
+<pre class="lang-highlight"><code class="lang-js"><span class="hljs-string">"nunjucks"</span>: <span class="hljs-string">"^1.3.4"</span>
 </code></pre>
 <p>The templating for this site isn’t anything crazy so I decided to try out nunjucks. It looks very similar to the php templating engine <code>twig</code> and its JS equivelant, <code>swig</code>. I’m not really sold on using it since it’s such a slim implementation/usage of it.</p>
 
