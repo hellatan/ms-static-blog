@@ -19,6 +19,7 @@ var scss = require('metalsmith-sass');
 var drafts = require('metalsmith-drafts');
 var collections = require('metalsmith-collections');
 var excerpts = require('metalsmith-excerpts');
+var jquery = require('metalsmith-jquery');
 
 var pageTitles = require('metalsmith-page-titles');
 var archive = require('metalsmith-archive')
@@ -47,6 +48,13 @@ if (!IS_PROD) {
         }
     ));
 }
+
+var tags = {
+    'pre': 'content-pre',
+    'code': 'content-code',
+    'p': 'content-copy',
+    'h2': 'content-h2'
+};
 
 M.metadata({
         IS_PROD: IS_PROD,
@@ -105,6 +113,16 @@ M.metadata({
         "engine": "nunjucks",
         "directory": "./_templates"
     }))
+    // using the metalsmith-jquery plugin screws something up with the metalsmith-sass plugin
+    //.use(jquery(function ($) {
+    //    Object.keys(tags).forEach(function (tag) {
+    //        var $tag = $(tag);
+    //        var klass = tags[tag];
+    //        if ($tag.length) {
+    //            $tag.addClass(klass);
+    //        }
+    //    });
+    //}))
     // need to keep `tags` after `templates` b/c of some
     // "directory"/"template" issues, need to dig in
     //.use(tags({
