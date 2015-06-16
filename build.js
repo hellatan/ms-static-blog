@@ -9,7 +9,7 @@
 
 var PORT            = process.env.PORT || 9999;
 var IS_PROD         = process.env.NODE_ENV === 'prod';
-var KEEP_PROD_ALIVE = process.env.SERVER_PROD;
+var KEEP_PROD_ALIVE = process.env.SERVE_PROD;
 var SHOW_DRAFTS     = process.env.SHOW_DRAFTS;
 var Metalsmith      = require('metalsmith');
 var markdown        = require('metalsmith-markdown');
@@ -132,6 +132,7 @@ M.metadata({
                 }
                 console.log('moved _build content');
                 if (!KEEP_PROD_ALIVE) {
+                    console.log('exiting')
                     process.exit();
                 }
             });
