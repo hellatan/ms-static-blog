@@ -21,6 +21,7 @@
 
 }
 
+// TODO: better way to target these classes
 .hljs-string {
     color: $primary-code-color;
 }
@@ -29,8 +30,10 @@
     color: $primary-code-color;
 }
 
-// TODO: better way to target these classes
 .hljs-number {
     color: rgb(169, 169, 169);
 }
 
+.hljs-comment {
+    color: #666;
+}
