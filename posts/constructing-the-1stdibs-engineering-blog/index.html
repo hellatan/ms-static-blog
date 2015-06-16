@@ -31,75 +31,27 @@
             
                 <p class="post-date">
                     <span class="post-published">Published <time datetime="May 27, 2015" class="tk-museo-sans post-publish-date">May 27, 2015</time></span> /
-                    <span class="post-last-modified">Last Modified <time datetime="June 12, 2015" class="tk-museo-sans post-last-modified-date">June 12, 2015</time></span>
+                    <span class="post-last-modified">Last Modified <time datetime="June 15, 2015" class="tk-museo-sans post-last-modified-date">June 15, 2015</time></span>
                 </p>
             
-            <span rel="author" class="post-author">dale tan</span>
+            
+    
+    <div class="author">
+        <span>Posted by:</span>
+        <span rel="author" class="post-author">dale tan</span>
+    </div>
+
         </header>
         <div class="pure-u-1 post-content">
             <p>After many fleeting discussions and false starts, the 1stdibs engineering blog has finally come to fruition.</p>
 <p>Since we use GitHub to host our code repositories, it was only natural to take advantage of their <a href="https://pages.github.com/">GitHub Pages</a> for <a href="https://help.github.com/articles/user-organization-and-project-pages/#user--organization-pages">Organizations</a>. Based on their recommendation for creating such pages, I immediately went down the route of investigating <a href="https://help.github.com/articles/using-jekyll-with-pages/">Jekyll</a>. </p>
-<p>Despite jumping right in, I was still rather reluctant to really look into Jekyll to begin with since I’m not a ruby fan (maybe that also slightly explains the delay). However, Jekyll is a rather powerful static site generator that seems to have a lot of functionality either baked in or that can be pulled from the open-source community. I still stuck through with it for a few days and it just didn’t feel right. On the front-end at 1stdibs, we are ultimately a JavaScript shop (with PHP mixed in…) and I come from a strict front-end background so JS is what I know and it’s what I love to program with. Our front-end team is all about it as well so it felt more natural to create this using a JavaScript solution. </p>
-<p>I searched around and was looking into different tools like <a href="https://hexo.io">hexo</a>, <a href="https://ghost.org">ghost</a>, and <a href="http://harpjs.com/">harp</a> amongst others and even considered <a href="http://braddenver.com/blog/2015/react-static-site.html">rolling my own</a> (mainly to play with react), but they just didn’t seem to fit quite right to do what I wanted to get accomplished. Hexo and ghost look to be a couple promising node.js systems but both seem to be better suited as a standalone server. Harp seemed like a pretty decent static site generator but it was a little too opinionated for my liking (allowing only jade -<em>barf</em>- and ejs as their templating systems). And then rolling your own solution just takes a lot of time and effort that can be spent elsewhere (like getting our <a href="https://twitter.com/_bar51/status/59228508678844416">kegbot up and running</a>). Pre-existing solutions help get the job done at a much quicker pace.</p>
-<p>After doing more research and fiddling around with those previous solutions, I ended going with <a href="http://metalsmith.io">Metalsmith</a>. Well, it was actually my second time around with it since I did that in my initial research. I think the biggest thing that drew me back to Metalsmith is the plugin extensibility. </p>
-<p>While my first go at Metalsmith felt more like just hacking away, the second go let me get a better feel for how Metalsmith actually operated under the hood. To me, it feels kind of like a mashup of express middleware (plugin in Metalsmith land) and gulp pipeline in terms of how the “request” object is affect by each additional plugin that is used. One plugin can affect a subsequent plugin if not used properly. Kind of an annoyance of middleware, but you just need to keep an eye out for it. </p>
-<p>After having a good sense for the plugin system, I still ran into a few snafus like accidentally deleting the entire project while trying to run a build to the project root folder (hint - always use <code class="lang-stylus">.<span class="hljs-function"><span class="hljs-title">clean</span><span class="hljs-params">(false)</span></span>.<span class="hljs-function"><span class="hljs-title">destination</span><span class="hljs-params">(<span class="hljs-string">'.'</span>)</span></span></code> if you want to do that) and figuring out the best way to go about having a build that could be handled by GitHub static pages without exposing any source code.</p>
-<p>To accomplish the latter of my main issuse, I ended up using the <code class="lang-dos"><span class="hljs-built_in">fs</span>-extra</code> node module that basically extends the built-in node <code class="lang-dos"><span class="hljs-built_in">fs</span></code> module. The only functionality that I needed was moving the contents of one directory into another. Once that was complete and handled, the blog started to really take shape.</p>
-<p>Like I originally mentioned, Metalsmith takes in plugins to manipulate the main output object. In order to get (at least) the first iteration of the blog done, these were the plugins used (reasoning further down):</p>
-<pre class="lang-highlight"><code class="lang-js"><span class="hljs-string">"fs-extra"</span>:                     <span class="hljs-string">"^0.18.4"</span>,
-<span class="hljs-string">"metalsmith"</span>:                   <span class="hljs-string">"^1.7.0"</span>,
-<span class="hljs-string">"metalsmith-collections"</span>:       <span class="hljs-string">"^0.7.0"</span>,
-<span class="hljs-string">"metalsmith-date-formatter"</span>:    <span class="hljs-string">"^1.0.1"</span>,
-<span class="hljs-string">"metalsmith-drafts"</span>:            <span class="hljs-string">"0.0.1"</span>,
-<span class="hljs-string">"metalsmith-excerpts"</span>:          <span class="hljs-string">"^1.0.0"</span>,
-<span class="hljs-string">"metalsmith-jquery"</span>:            <span class="hljs-string">"0.0.2"</span>,
-<span class="hljs-string">"metalsmith-markdown"</span>:          <span class="hljs-string">"^0.2.1"</span>,
-<span class="hljs-string">"metalsmith-page-titles"</span>:       <span class="hljs-string">"^1.0.1"</span>,
-<span class="hljs-string">"metalsmith-permalinks"</span>:        <span class="hljs-string">"^0.4.0"</span>,
-<span class="hljs-string">"metalsmith-sass"</span>:              <span class="hljs-string">"^0.7.0"</span>,
-<span class="hljs-string">"metalsmith-serve"</span>:             <span class="hljs-string">"0.0.3"</span>,
-<span class="hljs-string">"metalsmith-tags"</span>:              <span class="hljs-string">"^0.9.0"</span>,
-<span class="hljs-string">"metalsmith-templates"</span>:         <span class="hljs-string">"^0.7.0"</span>,
-<span class="hljs-string">"metalsmith-watch"</span>:             <span class="hljs-string">"^1.0.1"</span>,
-<span class="hljs-string">"nunjucks"</span>:                     <span class="hljs-string">"^1.3.4"</span>
-</code></pre>
-<pre class="lang-highlight"><code class="lang-js"><span class="hljs-string">"fs-extra"</span>: <span class="hljs-string">"^0.18.4"</span>,
-</code></pre>
-<p>As mentioned above, this was only used to move files from our <code>_build</code> directory up to the root as a post-build step. I couldn’t figure out a good way to move files from our output directory via metalsmith (feel free to hit me up on <a href="https://twitter.com/hellatan">twitter</a> if you know otherwise) but I literally run:</p>
-<pre class="lang-highlight"><code class="lang-js">fs.copy(<span class="hljs-string">'./_build'</span>, <span class="hljs-string">'./'</span>, callback);
-</code></pre>
-<p>to move those files so this blog plays nice with GitHub Pages.</p>
-<pre class="lang-highlight"><code class="lang-js"><span class="hljs-string">"metalsmith"</span>: <span class="hljs-string">"^1.7.0"</span>,
-</code></pre>
-<p>The main library. At this point we’re using version 1.7.0.</p>
-<pre class="lang-highlight"><code class="lang-js"><span class="hljs-string">"metalsmith-date-formatter"</span>: <span class="hljs-string">"^1.0.1"</span>,
-</code></pre>
-<pre class="lang-highlight"><code class="lang-js"><span class="hljs-string">"metalsmith-drafts"</span>: <span class="hljs-string">"0.0.1"</span>,
-</code></pre>
-<pre class="lang-highlight"><code class="lang-js"><span class="hljs-string">"metalsmith-excerpts"</span>: <span class="hljs-string">"^1.0.0"</span>,
-</code></pre>
-<pre class="lang-highlight"><code class="lang-js"><span class="hljs-string">"metalsmith-jquery"</span>: <span class="hljs-string">"0.0.2"</span>,
-</code></pre>
-<p>There’s a caveat to this one in that it technically isn’t currently being used but I think it’s still worthwhile to point out some issues I ran into. - I was originally going to use the <code>metalsmith-jquery</code> plugin and submitted a small patch to it, but for some reason, it doesn’t play nice with the <code>metalsmith-sass</code> plugin so I just ditched the jquery plugin since I could work around not having classes on my content elements; something I’m not a big fan of, but for time sake, this was the path of least resistance.</p>
-<pre class="lang-highlight"><code class="lang-js"><span class="hljs-string">"metalsmith-markdown"</span>: <span class="hljs-string">"^0.2.1"</span>,
-</code></pre>
-<pre class="lang-highlight"><code class="lang-js"><span class="hljs-string">"metalsmith-page-titles"</span>: <span class="hljs-string">"^1.0.1"</span>,
-</code></pre>
-<pre class="lang-highlight"><code class="lang-js"><span class="hljs-string">"metalsmith-permalinks"</span>: <span class="hljs-string">"^0.4.0"</span>,
-</code></pre>
-<pre class="lang-highlight"><code class="lang-js"><span class="hljs-string">"metalsmith-sass"</span>: <span class="hljs-string">"^0.7.0"</span>,
-</code></pre>
-<pre class="lang-highlight"><code class="lang-js"><span class="hljs-string">"metalsmith-serve"</span>: <span class="hljs-string">"0.0.3"</span>,
-</code></pre>
-<pre class="lang-highlight"><code class="lang-js"><span class="hljs-string">"metalsmith-tags"</span>: <span class="hljs-string">"^0.9.0"</span>,
-</code></pre>
-<pre class="lang-highlight"><code class="lang-js"><span class="hljs-string">"metalsmith-templates"</span>: <span class="hljs-string">"^0.7.0"</span>,
-</code></pre>
-<pre class="lang-highlight"><code class="lang-js"><span class="hljs-string">"metalsmith-watch"</span>: <span class="hljs-string">"^1.0.1"</span>,
-</code></pre>
-<pre class="lang-highlight"><code class="lang-js"><span class="hljs-string">"nunjucks"</span>: <span class="hljs-string">"^1.3.4"</span>
-</code></pre>
-<p>The templating for this site isn’t anything crazy so I decided to try out nunjucks. It looks very similar to the php templating engine <code>twig</code> and its JS equivelant, <code>swig</code>. I’m not really sold on using it since it’s such a slim implementation/usage of it.</p>
+<p>Despite jumping right in, I was still rather reluctant to really look into Jekyll to begin with since I’m not a ruby fan (maybe that also slightly explains the delay). However, Jekyll is a rather powerful static site generator that seems to have a lot of functionality either baked in or that can be pulled from the open-source community. I still stuck through with it for a few days but it still just didn’t feel right. On the front-end at 1stdibs, we are ultimately a JavaScript shop (with PHP mixed in…) and I come from a strict front-end background so JS is what I know and it’s what I love to program with. Our front-end team is all about it as well so it felt more natural to create this using a JavaScript solution. </p>
+<p>I searched around and was looking into different tools like <a href="https://hexo.io">hexo</a>, <a href="https://ghost.org">ghost</a>, and <a href="http://harpjs.com/">harp</a> amongst others and even considered <a href="http://braddenver.com/blog/2015/react-static-site.html">rolling my own</a> (mainly to play with react), but they just didn’t seem to fit quite right to do what I wanted to get accomplished. Hexo and ghost look to be a couple promising node.js systems but both seem to be better suited as a standalone server. Harp seemed like a pretty decent static site generator (GitHub pages is even touted on their homepage) but it was a little too opinionated for my liking (allowing only jade -<em>barf</em>- and ejs as their templating systems). Maybe I missed something, but it seemed kind of hard to extend. When you go with rolling your own solution, it just takes a lot of time and effort that can be spent elsewhere (like getting our <a href="https://twitter.com/_bar51/status/599228508678844416">kegbot up and running</a>). Pre-existing solutions help get the job done at a much quicker pace and removes a lot of biolerplate that you shouldnt have to deal with.</p>
+<p>After doing more research and fiddling around with those previous solutions, I ended going with <a href="http://metalsmith.io">Metalsmith</a>. Well, it was actually my second time around with it since I also investigated it with my initial research. I think the biggest thing that drew me back to Metalsmith was the plugin extensibility. </p>
+<p>While my first go at Metalsmith felt more like just hacking away, the second go let me get a better feel for how Metalsmith actually operated under the hood. To me, it felt kind of like a mashup of express middleware (plugin in Metalsmith land) and the gulp pipeline in terms of how the “request” object is affected by each individual plugin that is used; one plugin can affect a subsequent plugin if not used properly. Kind of an annoyance of middleware, but you just need to keep an eye out for it. </p>
+<p>After having a good sense for the plugin system, I still ran into a few snafus like accidentally deleting the entire project while trying to run a build to the project root folder (hint - always use <code class="lang-stylus">Metalsmith.<span class="hljs-function"><span class="hljs-title">clean</span><span class="hljs-params">(false)</span></span>.<span class="hljs-function"><span class="hljs-title">destination</span><span class="hljs-params">(<span class="hljs-string">'.'</span>)</span></span></code> if you want to do that) and then figuring out the best way to go about having a build that could be handled by GitHub static pages without exposing any source code.</p>
+<p>To accomplish the latter of my main issue, I ended up using the <a href="https://www.npmjs.com/package/fs-extra"><code class="lang-dos"><span class="hljs-built_in">fs</span>-extra</code></a> node module that basically extends the built-in node <code class="lang-dos"><span class="hljs-built_in">fs</span></code> module. The only functionality that I needed was moving the contents of one directory into another. Once that was complete and handled, the blog started to really take shape.</p>
+<p>From there it was a matter of looking for additional plugins needed for building out the site as well as creating any custom plugins to fill in any gaps. Out of this initial go with Metalsmith, three plugins were created - <a href="https://github.com/hellatan/metalsmith-archive">Metalsmith Archive Page</a>, <a href="https://github.com/hellatan/metalsmith-date-formatter">Metalsmith Date Formatter</a>, and <a href="https://github.com/hellatan/metalsmith-page-titles">Metalsmtih Page Titles</a>. As this blog grows, I’m sure there will be additional functionality that will need to be hooked up or created at which point there will be more open-source goodness coming from us.</p>
 
         </div>
     </div>
