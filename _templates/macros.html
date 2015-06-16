@@ -22,3 +22,11 @@
         </ul>
     </footer>
 {% endmacro %}
+
+{% macro author_by_line(name, classPrefix) %}
+    {% set classPrefix = classPrefix | default('post') %}
+    <div class="author">
+        <span>Posted by:</span>
+        <span rel="author" class="{{ classPrefix }}-author">{{ name }}</span>
+    </div>
+{% endmacro %}
