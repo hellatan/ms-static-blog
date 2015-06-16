@@ -1,135 +1,15 @@
 [metalsmith]: http://www.metalsmith.io/
-[markdown]: http://daringfireball.net/projects/markdown/syntax
-[yfm]: http://jekyllrb.com/docs/frontmatter/
-[gfm]: https://help.github.com/articles/github-flavored-markdown/
-
 
 # 1stdibs Engineering Blog
 
 The 1stdibs engineering blog. Built with [Metalsmith][metalsmith].
 
-## What comprises of a post?
+## Guide
 
-A post should always be written in [Markdown][markdown] which uses the [Github Flavored Markdown][gfm] version.
-You must include [YAML Front Matter (YFM)][yfm] at the very top of your post. The following properties are required in order to make your post render properly:
+- [Developing locally](./guide/developing-locally.md)
+- [Topics](./guide/topics.md)
+- [Writing a post](./guide/writing-a-post.md)
+- [Troubleshooting](./guide/troubleshooting.md)
+- [Creating Metalsmith plugins](./guide/creating-metalsmith-plugin.md)
+- [Roadmap](./guide/roadmap.md)
 
-- `title`: pretty self-explanatory
-- `publishDate`: in YYYY-MM-DD format
-- `modifiedDate`: in YYYY-MM-DD format
-- `template`: most likely just `post.html`
-- `collection`: most likely just `posts`
-
-Here is an example of the minimal YFM that you need:
-
-```markdown
----
-title: The title of my post
-publishDate: 2015-05-27
-modifiedDate: 2015-05-28
-template: post.html
-collection: posts
----
-```
-
-## Creating a new post
-
-Your `title` YFM will become the post title on output as a `<h1>` tag so you should not include an additional `<h1>` header. It will also be used when creating any links.
-
-### Create a new file
-
-Naming convention: `YYYY-MM-DD-title-here.md`
-Example: 2015-05-27-my-post-title.md
-
-### Add YAML Front Matter
-
-At least add the YFM from above. Other properties that can be added (though some implementation may be TBD):
-
-- `tags`: comma delimited list of tags. there is no master list. You'll need to check the individual posts
-- `drafts`: if `true`, it will not be published, but viewable in dev mode
-- social media handles: `twitter`, `instagram`, `github` 
-
-### Submit a pull request
-
-Get it reviewed.
-
-## Topics
-
-Create a new Github issue. This way it's more visible engineering-wide.
-
-## Troubleshooting
-
-#### EACCES, mkdir '/some-directory'
-
-If you run `npm start` (aliased to `node build`) and see the following (or similar) issue:
-
-```bash
-[metalsmith-watch] ✔︎ Watching _src/**/*
-[metalsmith-watch] ✔︎ Watching _templates/**/*
-[metalsmith-serve] serving /blog/_build at http://localhost:9999
-
-/blog/build.js:105
-            throw err;
-                  ^
-Error: Failed to write the file at: /my-blog-post/index.html
-
-EACCES, mkdir '/my-blog-post'
-```
-
-Make sure that you have all of the required YFM in your post. One culprit could be not having the `collection` property.
-
-#### My post shows up out of order on the homepage
-
-Make sure you have `publishDate` set in your YFM. This is the property posts are ordered in.
-
-# Creating Metalsmith plugins
-
-For creating a new plugin, start out by adding a folder in the `_lib` directory prefixed with `metalsmith-`.
-
-The basic structure should look like this:
-
-```bash
-| - _lib/
-    | - metalsmith-plugin/
-        | - lib/
-            | - index.js
-        | - test/
-            | - fixtures/
-                | - build
-                | - src
-            | - index.js
-        | - package.json
-```
-
-In your `package.json`, you should have the following setup:
-
-```json
-{
-  "name": "metalsmith-plugin",
-  "version": "0.1.0",
-  "description": "some description",
-  "main": "lib/index.js",
-  "scripts": {
-    "test": "./node_modules/.bin/mocha --reporter spec"
-  },
-  "author": "dale tan <dale@1stdibs.com> (https://1stdibs.com)",
-  "license": "MIT",
-  "devDependencies": {
-    "metalsmith": "^1.7.0",
-    "mocha": "^2.2.5"
-  }
-}
-```
-
-Then you can `require` the code from the `build.js` file:
-
-```js
-var plugin = require('./_lib/metalsmith-plugin');
-```
-
-# Roadmap (aka add this functionality) in no specific order
-
-- Post pagination (metalsmith-collections-paginate plugin?)
-- Create a page that groups articles under their respective author
-- Add more functionality to the YFM and displaying appropriately (ie author social media links)
-- Figure out the issue when using metalsmith-jquery (no ticket filed on github yet)
-- Add a "tags" page (would require updating posts with tags info)
