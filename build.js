@@ -7,31 +7,26 @@
 
 'use strict';
 
-var PORT = process.env.PORT || 9999;
-var IS_PROD = process.env.NODE_ENV === 'prod';
-var IGNORE_DRAFTS = process.env.IGNORE_DRAFTS;
-var Metalsmith = require('metalsmith');
-var markdown = require('metalsmith-markdown');
-var templates = require('metalsmith-templates');
-var permalinks = require('metalsmith-permalinks');
-var scss = require('metalsmith-sass');
-var drafts = require('metalsmith-drafts');
-var collections = require('metalsmith-collections');
-var excerpts = require('metalsmith-excerpts');
-
-var pageTitles = require('metalsmith-page-titles');
-var archive = require('metalsmith-archive')
-
-var codeHighlight = require('metalsmith-code-highlight');
-
-var serve = require('metalsmith-serve');
-var watch = require('metalsmith-watch');
-var tags = require('metalsmith-tags');
-var dateFormatter = require('metalsmith-date-formatter');
-
-var wordCount = require('metalsmith-word-count');
-
-var fs = require('fs-extra');
+var PORT            = process.env.PORT || 9999;
+var IS_PROD         = process.env.NODE_ENV === 'prod';
+var IGNORE_DRAFTS   = process.env.IGNORE_DRAFTS;
+var Metalsmith      = require('metalsmith');
+var markdown        = require('metalsmith-markdown');
+var templates       = require('metalsmith-templates');
+var permalinks      = require('metalsmith-permalinks');
+var scss            = require('metalsmith-sass');
+var drafts          = require('metalsmith-drafts');
+var collections     = require('metalsmith-collections');
+var excerpts        = require('metalsmith-excerpts');
+var pageTitles      = require('metalsmith-page-titles');
+var archive         = require('metalsmith-archive')
+var codeHighlight   = require('metalsmith-code-highlight');
+var serve           = require('metalsmith-serve');
+var watch           = require('metalsmith-watch');
+var tags            = require('metalsmith-tags');
+var dateFormatter   = require('metalsmith-date-formatter');
+var wordCount       = require('metalsmith-word-count');
+var fs              = require('fs-extra');
 
 var M = Metalsmith(__dirname);
 
