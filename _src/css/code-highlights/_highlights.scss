@@ -8,6 +8,8 @@
 
 // overrides for http://yandex.st/highlightjs/8.0/styles/default.min.css
 
+@import "./variables";
+
 .lang-highlight {
     background-color: grey;
     border-radius: 5px;
@@ -17,6 +19,14 @@
         width: 100%;
     }
 
+}
+
+.hljs-string {
+    color: $primary-code-color;
+}
+
+.hljs-title {
+    color: $primary-code-color;
 }
 
 // TODO: better way to target these classes

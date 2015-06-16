@@ -9,6 +9,7 @@
 // so need to nest everything for now
 // using the metalsmith-jquery plugin breaks the build step
 
+@import "../code-highlights/variables";
 @import "../code-highlights/highlights";
 
 .post-content {
@@ -17,6 +18,7 @@
         font-size: 20px;
         > code {
             background-color: grey;
+            color: $primary-code-color;
             border-radius: 2px;
             font-size: 0.8em;
             padding: 2px 3px;
