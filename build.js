@@ -119,6 +119,7 @@ M.metadata({
         verbose: true
     }))
     .build(function(err) {
+        console.log('building');
         if (err) {
             if (err.message) {
                 err = err.message;
