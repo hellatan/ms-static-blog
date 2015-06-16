@@ -43,6 +43,11 @@ if (!IS_PROD) {
     ));
 }
 
+if (!SHOW_DRAFTS) {
+    // remove any article with the `draft: true` YFM
+    M.use(drafts());
+}
+
 M.metadata({
         IS_PROD: IS_PROD,
         site: {
@@ -60,13 +65,7 @@ M.metadata({
     // .clean(false)
     // .destination('.')
     .destination('./_build')
-
-if (SHOW_DRAFTS === true && IS_PROD !== true) {
-    // remove any article with the
-    M.use(drafts())
-}
-
-M.use(wordCount())
+    .use(wordCount())
     .use(markdown({
         smartypants: true,
         // github flavored markdown
