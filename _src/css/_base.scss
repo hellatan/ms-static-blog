@@ -14,7 +14,10 @@ body {
 
 .page {
     margin: 0 auto;
-    width: 85%;
+    width: 75%;
+    @media (max-width: 768px) {
+        width: 85%;
+    }
 }
 
 // clearfix class
