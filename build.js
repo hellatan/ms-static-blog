@@ -9,7 +9,8 @@
 
 var PORT            = process.env.PORT || 9999;
 var IS_PROD         = process.env.NODE_ENV === 'prod';
-var IGNORE_DRAFTS   = process.env.IGNORE_DRAFTS;
+var KEEP_PROD_ALIVE = process.env.SERVER_PROD;
+var SHOW_DRAFTS     = process.env.SHOW_DRAFTS;
 var Metalsmith      = require('metalsmith');
 var markdown        = require('metalsmith-markdown');
 var templates       = require('metalsmith-templates');
@@ -59,16 +60,18 @@ M.metadata({
     // .clean(false)
     // .destination('.')
     .destination('./_build')
-    .use(wordCount())
+
+if (SHOW_DRAFTS === true && IS_PROD !== true) {
+    // remove any article with the
+    M.use(drafts())
+}
+
+M.use(wordCount())
     .use(markdown({
         smartypants: true,
         // github flavored markdown
         gfm: true,
         tables: true
-    }))
-    // remove any article with the
-    .use(drafts({
-        publish: IS_PROD || IGNORE_DRAFTS ? false : true
     }))
     .use(excerpts())
     .use(collections({
@@ -129,7 +132,9 @@ M.metadata({
                     return console.error(err);
                 }
                 console.log('moved _build content');
-                process.exit();
+                if (!KEEP_PROD_ALIVE) {
+                    process.exit();
+                }
             });
         }
     });

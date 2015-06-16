@@ -49,4 +49,4 @@ Just an example of how the folder structure may look after doing a PROD build:
 
 ### Draft Mode
 
-If you want to keep your article in Draft mode, add `draft: true` to your YFM. You will need to 
+If you want to keep your article in Draft mode, add `draft: true` to your YFM. You will need to run `npm run show-drafts`
