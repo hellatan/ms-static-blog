@@ -47,11 +47,179 @@
 <p>Since we use GitHub to host our code repositories, it was only natural to take advantage of their <a href="https://pages.github.com/">GitHub Pages</a> for <a href="https://help.github.com/articles/user-organization-and-project-pages/#user--organization-pages">Organizations</a>. Based on their recommendation for creating such pages, I immediately went down the route of investigating <a href="https://help.github.com/articles/using-jekyll-with-pages/">Jekyll</a>. </p>
 <p>Despite jumping right in, I was still rather reluctant to really look into Jekyll to begin with since I’m not a ruby fan (maybe that also slightly explains the delay). However, Jekyll is a rather powerful static site generator that seems to have a lot of functionality either baked in or that can be pulled from the open-source community. I still stuck through with it for a few days but it still just didn’t feel right. On the front-end at 1stdibs, we are ultimately a JavaScript shop (with PHP mixed in…) and I come from a strict front-end background so JS is what I know and it’s what I love to program with. Our front-end team is all about it as well so it felt more natural to create this using a JavaScript solution. </p>
 <p>I searched around and was looking into different tools like <a href="https://hexo.io">hexo</a>, <a href="https://ghost.org">ghost</a>, and <a href="http://harpjs.com/">harp</a> amongst others and even considered <a href="http://braddenver.com/blog/2015/react-static-site.html">rolling my own</a> (mainly to play with react), but they just didn’t seem to fit quite right to do what I wanted to get accomplished. Hexo and ghost look to be a couple promising node.js systems but both seem to be better suited as a standalone server. Harp seemed like a pretty decent static site generator (GitHub pages is even touted on their homepage) but it was a little too opinionated for my liking (allowing only jade -<em>barf</em>- and ejs as their templating systems). Maybe I missed something, but it seemed kind of hard to extend. When you go with rolling your own solution, it just takes a lot of time and effort that can be spent elsewhere (like getting our <a href="https://twitter.com/_bar51/status/599228508678844416">kegbot up and running</a>). Pre-existing solutions help get the job done at a much quicker pace and removes a lot of biolerplate that you shouldnt have to deal with.</p>
-<p>After doing more research and fiddling around with those previous solutions, I ended going with <a href="http://metalsmith.io">Metalsmith</a>. Well, it was actually my second time around with it since I also investigated it with my initial research. I think the biggest thing that drew me back to Metalsmith was the plugin extensibility. </p>
+<p>Doing more research and fiddling around with those previous solutions, I ended going with <a href="http://metalsmith.io">Metalsmith</a>. Well, it was actually my second time around with it since I also investigated it with my initial research. I think the biggest thing that drew me back to Metalsmith was the plugin extensibility. </p>
 <p>While my first go at Metalsmith felt more like just hacking away, the second go let me get a better feel for how Metalsmith actually operated under the hood. To me, it felt kind of like a mashup of express middleware (plugin in Metalsmith land) and the gulp pipeline in terms of how the “request” object is affected by each individual plugin that is used; one plugin can affect a subsequent plugin if not used properly. Kind of an annoyance of middleware, but you just need to keep an eye out for it. </p>
-<p>After having a good sense for the plugin system, I still ran into a few snafus like accidentally deleting the entire project while trying to run a build to the project root folder (hint - always use <code class="lang-stylus">Metalsmith.<span class="hljs-function"><span class="hljs-title">clean</span><span class="hljs-params">(false)</span></span>.<span class="hljs-function"><span class="hljs-title">destination</span><span class="hljs-params">(<span class="hljs-string">'.'</span>)</span></span></code> if you want to do that) and then figuring out the best way to go about having a build that could be handled by GitHub static pages without exposing any source code.</p>
+<p>Once I had a good sense for the plugin system, I still ran into a few snafus like accidentally deleting the entire project while trying to run a build to the project root folder (hint - always use <code class="lang-stylus">Metalsmith.<span class="hljs-function"><span class="hljs-title">clean</span><span class="hljs-params">(false)</span></span>.<span class="hljs-function"><span class="hljs-title">destination</span><span class="hljs-params">(<span class="hljs-string">'.'</span>)</span></span></code> if you want to do that) and then figuring out the best way to go about having a build that could be handled by GitHub static pages without exposing any source code.</p>
 <p>To accomplish the latter of my main issue, I ended up using the <a href="https://www.npmjs.com/package/fs-extra"><code class="lang-dos"><span class="hljs-built_in">fs</span>-extra</code></a> node module that basically extends the built-in node <code class="lang-dos"><span class="hljs-built_in">fs</span></code> module. The only functionality that I needed was moving the contents of one directory into another. Once that was complete and handled, the blog started to really take shape.</p>
 <p>From there it was a matter of looking for additional plugins needed for building out the site as well as creating any custom plugins to fill in any gaps. Out of this initial go with Metalsmith, three plugins were created - <a href="https://github.com/hellatan/metalsmith-archive">Metalsmith Archive Page</a>, <a href="https://github.com/hellatan/metalsmith-date-formatter">Metalsmith Date Formatter</a>, and <a href="https://github.com/hellatan/metalsmith-page-titles">Metalsmtih Page Titles</a>. As this blog grows, I’m sure there will be additional functionality that will need to be hooked up or created at which point there will be more open-source goodness coming from us.</p>
+<p>As a TL;DR, here is the setup and code used to generate this site:</p>
+<p>./package.json:</p>
+<pre class="lang-highlight"><code class="lang-json">{
+  "<span class="hljs-attribute">name</span>": <span class="hljs-value"><span class="hljs-string">"ms-static-blog"</span></span>,
+  "<span class="hljs-attribute">version</span>": <span class="hljs-value"><span class="hljs-string">"1.0.0"</span></span>,
+  "<span class="hljs-attribute">description</span>": <span class="hljs-value"><span class="hljs-string">""</span></span>,
+  "<span class="hljs-attribute">main</span>": <span class="hljs-value"><span class="hljs-string">"index.js"</span></span>,
+  "<span class="hljs-attribute">scripts</span>": <span class="hljs-value">{
+    "<span class="hljs-attribute">test</span>": <span class="hljs-value"><span class="hljs-string">"echo \"Error: no test specified\" &amp;&amp; exit 1"</span></span>,
+    "<span class="hljs-attribute">start</span>": <span class="hljs-value"><span class="hljs-string">"node build"</span></span>,
+    "<span class="hljs-attribute">build</span>": <span class="hljs-value"><span class="hljs-string">"NODE_ENV=prod npm start"</span></span>,
+    "<span class="hljs-attribute">ignore-drafts</span>": <span class="hljs-value"><span class="hljs-string">"IGNORE_DRAFTS=true node build"</span>
+  </span>}</span>,
+  "<span class="hljs-attribute">repository</span>": <span class="hljs-value">{
+    "<span class="hljs-attribute">type</span>": <span class="hljs-value"><span class="hljs-string">"git"</span></span>,
+    "<span class="hljs-attribute">url</span>": <span class="hljs-value"><span class="hljs-string">"https://github.com/hellatan/ms-static-blog.git"</span>
+  </span>}</span>,
+  "<span class="hljs-attribute">author</span>": <span class="hljs-value"><span class="hljs-string">""</span></span>,
+  "<span class="hljs-attribute">license</span>": <span class="hljs-value"><span class="hljs-string">"ISC"</span></span>,
+  "<span class="hljs-attribute">bugs</span>": <span class="hljs-value">{
+    "<span class="hljs-attribute">url</span>": <span class="hljs-value"><span class="hljs-string">"https://github.com/hellatan/ms-static-blog/issues"</span>
+  </span>}</span>,
+  "<span class="hljs-attribute">homepage</span>": <span class="hljs-value"><span class="hljs-string">"https://github.com/hellatan/ms-static-blog"</span></span>,
+  "<span class="hljs-attribute">devDependencies</span>": <span class="hljs-value">{
+    "<span class="hljs-attribute">fs-extra</span>": <span class="hljs-value"><span class="hljs-string">"^0.18.4"</span></span>,
+    "<span class="hljs-attribute">metalsmith</span>": <span class="hljs-value"><span class="hljs-string">"^1.7.0"</span></span>,
+    "<span class="hljs-attribute">metalsmith-archive</span>": <span class="hljs-value"><span class="hljs-string">"^0.1.1"</span></span>,
+    "<span class="hljs-attribute">metalsmith-code-highlight</span>": <span class="hljs-value"><span class="hljs-string">"git://github.com/hellatan/metalsmith-code-highlight.git#feature-add-class"</span></span>,
+    "<span class="hljs-attribute">metalsmith-collections</span>": <span class="hljs-value"><span class="hljs-string">"^0.7.0"</span></span>,
+    "<span class="hljs-attribute">metalsmith-date-formatter</span>": <span class="hljs-value"><span class="hljs-string">"^1.0.2"</span></span>,
+    "<span class="hljs-attribute">metalsmith-drafts</span>": <span class="hljs-value"><span class="hljs-string">"0.0.1"</span></span>,
+    "<span class="hljs-attribute">metalsmith-excerpts</span>": <span class="hljs-value"><span class="hljs-string">"^1.0.0"</span></span>,
+    "<span class="hljs-attribute">metalsmith-jquery</span>": <span class="hljs-value"><span class="hljs-string">"0.0.1"</span></span>,
+    "<span class="hljs-attribute">metalsmith-markdown</span>": <span class="hljs-value"><span class="hljs-string">"^0.2.1"</span></span>,
+    "<span class="hljs-attribute">metalsmith-page-titles</span>": <span class="hljs-value"><span class="hljs-string">"^1.0.1"</span></span>,
+    "<span class="hljs-attribute">metalsmith-permalinks</span>": <span class="hljs-value"><span class="hljs-string">"^0.4.0"</span></span>,
+    "<span class="hljs-attribute">metalsmith-sass</span>": <span class="hljs-value"><span class="hljs-string">"^1.1.0"</span></span>,
+    "<span class="hljs-attribute">metalsmith-serve</span>": <span class="hljs-value"><span class="hljs-string">"0.0.3"</span></span>,
+    "<span class="hljs-attribute">metalsmith-tags</span>": <span class="hljs-value"><span class="hljs-string">"^0.9.0"</span></span>,
+    "<span class="hljs-attribute">metalsmith-templates</span>": <span class="hljs-value"><span class="hljs-string">"^0.7.0"</span></span>,
+    "<span class="hljs-attribute">metalsmith-watch</span>": <span class="hljs-value"><span class="hljs-string">"^1.0.1"</span></span>,
+    "<span class="hljs-attribute">metalsmith-word-count</span>": <span class="hljs-value"><span class="hljs-string">"0.0.4"</span></span>,
+    "<span class="hljs-attribute">nunjucks</span>": <span class="hljs-value"><span class="hljs-string">"^1.3.4"</span>
+  </span>}
+</span>}
+</code></pre>
+<p>./build.js:</p>
+<pre class="lang-highlight"><code class="lang-js"><span class="hljs-pi">'use strict'</span>;
+
+
+<span class="hljs-keyword">var</span> PORT            = process.env.PORT || <span class="hljs-number">9999</span>;
+<span class="hljs-keyword">var</span> IS_PROD         = process.env.NODE_ENV === <span class="hljs-string">'prod'</span>;
+<span class="hljs-keyword">var</span> IGNORE_DRAFTS   = process.env.IGNORE_DRAFTS;
+<span class="hljs-keyword">var</span> Metalsmith      = <span class="hljs-built_in">require</span>(<span class="hljs-string">'metalsmith'</span>);
+<span class="hljs-keyword">var</span> markdown        = <span class="hljs-built_in">require</span>(<span class="hljs-string">'metalsmith-markdown'</span>);
+<span class="hljs-keyword">var</span> templates       = <span class="hljs-built_in">require</span>(<span class="hljs-string">'metalsmith-templates'</span>);
+<span class="hljs-keyword">var</span> permalinks      = <span class="hljs-built_in">require</span>(<span class="hljs-string">'metalsmith-permalinks'</span>);
+<span class="hljs-keyword">var</span> scss            = <span class="hljs-built_in">require</span>(<span class="hljs-string">'metalsmith-sass'</span>);
+<span class="hljs-keyword">var</span> drafts          = <span class="hljs-built_in">require</span>(<span class="hljs-string">'metalsmith-drafts'</span>);
+<span class="hljs-keyword">var</span> collections     = <span class="hljs-built_in">require</span>(<span class="hljs-string">'metalsmith-collections'</span>);
+<span class="hljs-keyword">var</span> excerpts        = <span class="hljs-built_in">require</span>(<span class="hljs-string">'metalsmith-excerpts'</span>);
+<span class="hljs-keyword">var</span> pageTitles      = <span class="hljs-built_in">require</span>(<span class="hljs-string">'metalsmith-page-titles'</span>);
+<span class="hljs-keyword">var</span> archive         = <span class="hljs-built_in">require</span>(<span class="hljs-string">'metalsmith-archive'</span>)
+<span class="hljs-keyword">var</span> codeHighlight   = <span class="hljs-built_in">require</span>(<span class="hljs-string">'metalsmith-code-highlight'</span>);
+<span class="hljs-keyword">var</span> serve           = <span class="hljs-built_in">require</span>(<span class="hljs-string">'metalsmith-serve'</span>);
+<span class="hljs-keyword">var</span> watch           = <span class="hljs-built_in">require</span>(<span class="hljs-string">'metalsmith-watch'</span>);
+<span class="hljs-keyword">var</span> tags            = <span class="hljs-built_in">require</span>(<span class="hljs-string">'metalsmith-tags'</span>);
+<span class="hljs-keyword">var</span> dateFormatter   = <span class="hljs-built_in">require</span>(<span class="hljs-string">'metalsmith-date-formatter'</span>);
+<span class="hljs-keyword">var</span> wordCount       = <span class="hljs-built_in">require</span>(<span class="hljs-string">'metalsmith-word-count'</span>);
+<span class="hljs-keyword">var</span> fs              = <span class="hljs-built_in">require</span>(<span class="hljs-string">'fs-extra'</span>);
+
+<span class="hljs-keyword">var</span> M = Metalsmith(__dirname);
+
+<span class="hljs-keyword">if</span> (!IS_PROD) {
+    M.use(watch(
+        {
+            paths: {
+                <span class="hljs-string">"${source}/**/*"</span>: <span class="hljs-string">"**/*"</span>,
+                <span class="hljs-string">"_templates/**/*"</span>: <span class="hljs-string">"**/*"</span>
+            },
+            livereload: <span class="hljs-literal">true</span>
+        }
+    ));
+}
+
+M.metadata({
+        IS_PROD: IS_PROD,
+        site: {
+            title: <span class="hljs-string">'1stdibs Engineering - The most beautiful code on earth'</span>,
+            url: <span class="hljs-string">'http://codeat1stdibs.com'</span>,
+            assetsRoot: <span class="hljs-string">'/'</span>
+        },
+        currentYear: <span class="hljs-keyword">new</span> <span class="hljs-built_in">Date</span>().getFullYear()
+    })
+    .source(<span class="hljs-string">'./_src'</span>)
+    <span class="hljs-comment">// .clean(false).destination('.') MUST</span>
+    <span class="hljs-comment">// be used in conjunction with one another</span>
+    <span class="hljs-comment">// otherwise this entire project will</span>
+    <span class="hljs-comment">// get the `rm -rf ./` treatment</span>
+    <span class="hljs-comment">// .clean(false)</span>
+    <span class="hljs-comment">// .destination('.')</span>
+    .destination(<span class="hljs-string">'./_build'</span>)
+    .use(wordCount())
+    .use(markdown({
+        smartypants: <span class="hljs-literal">true</span>,
+        <span class="hljs-comment">// github flavored markdown</span>
+        gfm: <span class="hljs-literal">true</span>,
+        tables: <span class="hljs-literal">true</span>
+    }))
+    <span class="hljs-comment">// remove any article with the</span>
+    .use(drafts({
+        publish: IS_PROD || IGNORE_DRAFTS ? <span class="hljs-literal">false</span> : <span class="hljs-literal">true</span>
+    }))
+    .use(excerpts())
+    .use(collections({
+        posts: {
+            sortBy: <span class="hljs-string">'publishDate'</span>,
+            reverse: <span class="hljs-literal">true</span>
+        }
+    }))
+    .use(permalinks({
+        pattern: <span class="hljs-string">':collection/:title'</span>,
+        relative: <span class="hljs-literal">false</span>
+    }))
+    .use(archive({
+        collections: <span class="hljs-string">'posts'</span>,
+        groupByMonth: <span class="hljs-literal">true</span>
+    }))
+    .use(scss({
+        <span class="hljs-comment">// do not use `outputDir` option - it will remove any sort of file structure in the src files</span>
+        outputStyle: IS_PROD ? <span class="hljs-string">'compressed'</span> : <span class="hljs-string">'expanded'</span>,
+        sourceMap: <span class="hljs-literal">true</span>,
+        sourceMapContents: <span class="hljs-literal">true</span>,
+        files: [<span class="hljs-string">'./_src/scss/**/*.scss'</span>]
+    }))
+    <span class="hljs-comment">// <span class="hljs-doctag"><span class="hljs-keyword">todo</span></span>: add comment to npm module that `pageTitles` and `dateFormatter` must above `templates`</span>
+    .use(pageTitles())
+    .use(dateFormatter())
+    .use(templates({
+        <span class="hljs-string">"engine"</span>: <span class="hljs-string">"nunjucks"</span>,
+        <span class="hljs-string">"directory"</span>: <span class="hljs-string">"./_templates"</span>
+    }))
+    .use(codeHighlight())
+    .use(serve({
+        port: PORT,
+        verbose: <span class="hljs-literal">true</span>
+    }))
+    .build(<span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">err</span>) </span>{
+        <span class="hljs-built_in">console</span>.log(<span class="hljs-string">'building'</span>);
+        <span class="hljs-keyword">if</span> (err) {
+            <span class="hljs-keyword">if</span> (err.message) {
+                err = err.message;
+            }
+            <span class="hljs-keyword">throw</span> err;
+        }
+        <span class="hljs-built_in">console</span>.log(<span class="hljs-string">'built'</span>);
+
+        <span class="hljs-keyword">if</span> (IS_PROD) {
+            fs.copy(<span class="hljs-string">'./_build'</span>, <span class="hljs-string">'./'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">err</span>) </span>{
+                <span class="hljs-keyword">if</span> (err) {
+                    <span class="hljs-keyword">return</span> <span class="hljs-built_in">console</span>.error(err);
+                }
+                <span class="hljs-built_in">console</span>.log(<span class="hljs-string">'moved _build content'</span>);
+                process.exit();
+            });
+        }
+    });
+</code></pre>
 
         </div>
     </div>
