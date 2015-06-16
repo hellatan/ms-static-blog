@@ -10,7 +10,6 @@
 var PORT = process.env.PORT || 9999;
 var IS_PROD = process.env.NODE_ENV === 'prod';
 var IGNORE_DRAFTS = process.env.IGNORE_DRAFTS;
-var gulp = require('gulp');
 var Metalsmith = require('metalsmith');
 var markdown = require('metalsmith-markdown');
 var templates = require('metalsmith-templates');
