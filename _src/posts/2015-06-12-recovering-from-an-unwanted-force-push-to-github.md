@@ -8,9 +8,11 @@ collection: posts
 template: post.html
 ---
 
-Oops! Did you accidentally force push the wrong commit to a branch on github? Even worse, do none of your coworkers have the old (correct) commit commit on their machine because it that commit was created by github when merging pull requeest? Well, you are outta luck as far as the github UI goes; there's no way that I can find to force reset a branch to a specific commit. Calm down, there is hope. Here is what you have to do:
+Oops! Did you accidentally force push the wrong commit to a branch on github? Even worse, do none of your coworkers have the old (correct) commit commit on their machine because it that commit was created by github when merging pull requeest? Well, you are outta luck as far as the github UI goes; there's no way that I can find to force reset a branch to a specific commit. 
 
-Find the hash of commit that you force pushed over. Git should have told you this at the time you did the force push:
+Calm down, there is hope. Here is what you have to do: Find the hash of commit that you force pushed over. 
+
+Git should have told you this at the time you did the force push:
 
 ```bash
 % git push --force origin master
