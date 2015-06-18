@@ -9,7 +9,6 @@
 
 var PORT            = process.env.PORT || 9999;
 var IS_PROD         = process.env.NODE_ENV === 'prod';
-var KEEP_PROD_ALIVE = process.env.SERVE_PROD;
 var SHOW_DRAFTS     = process.env.SHOW_DRAFTS;
 var Metalsmith      = require('metalsmith');
 var markdown        = require('metalsmith-markdown');
@@ -30,18 +29,6 @@ var wordCount       = require('metalsmith-word-count');
 var fs              = require('fs-extra');
 
 var M = Metalsmith(__dirname);
-
-if (!IS_PROD) {
-    M.use(watch(
-        {
-            paths: {
-                "${source}/**/*": "**/*",
-                "_templates/**/*": "**/*"
-            },
-            livereload: true
-        }
-    ));
-}
 
 if (!SHOW_DRAFTS) {
     // remove any article with the `draft: true` YFM
@@ -65,6 +52,15 @@ M.metadata({
     // .clean(false)
     // .destination('.')
     .destination('./_build')
+    .use(watch(
+        {
+            paths: {
+                "${source}/**/*": "**/*",
+                "_templates/**/*": "**/*"
+            },
+            livereload: true
+        }
+    ))
     .use(wordCount())
     .use(markdown({
         smartypants: true,
@@ -125,17 +121,11 @@ M.metadata({
         }
         console.log('built');
 
-        if (IS_PROD) {
-            fs.copy('./_build', './', function(err) {
-                if (err) {
-                    return console.error(err);
-                }
-                console.log('moved _build content');
-                if (!KEEP_PROD_ALIVE) {
-                    console.log('exiting')
-                    process.exit();
-                }
-            });
-        }
+        fs.copy('./_build', './', function(err) {
+            if (err) {
+                return console.error(err);
+            }
+            console.log('moved _build content');
+        });
     });
 
